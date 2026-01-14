@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, render_template_string, request, jsonify, redirect, session, abort, g
+from flask import Flask, render_template_string, request, jsonify, redirect, session, abort, g, send_from_directory
 from markupsafe import escape
 from functools import wraps
 import sqlite3
@@ -1996,6 +1996,119 @@ MAIN_PAGE = '''
             .cities-list { grid-template-columns: 1fr; }
             .section { padding: 80px 30px; }
         }
+
+        /* Video Showcase Section */
+        .video-showcase {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            padding: 100px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .video-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(201,162,39,0.1)"/></svg>');
+            background-size: 30px 30px;
+            opacity: 0.5;
+        }
+        .video-showcase .section-header h2 {
+            color: #fff;
+        }
+        .video-showcase .section-header h2 span {
+            color: #c9a227;
+        }
+        .video-showcase .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+        .video-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .video-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,162,39,0.3);
+            background: #000;
+            transform: perspective(1000px) rotateX(2deg);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        .video-wrapper:hover {
+            transform: perspective(1000px) rotateX(0deg) scale(1.02);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 2px rgba(201,162,39,0.5), 0 0 60px rgba(201,162,39,0.2);
+        }
+        .video-wrapper video {
+            width: 100%;
+            display: block;
+            border-radius: 20px;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8) 100%);
+            pointer-events: none;
+            border-radius: 20px;
+        }
+        .video-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #c9a227, #d4af37);
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+            box-shadow: 0 5px 20px rgba(201,162,39,0.4);
+        }
+        .video-info {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            z-index: 2;
+            color: #fff;
+        }
+        .video-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .video-info p {
+            font-size: 1rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
+        .video-controls-hint {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        .video-controls-hint i {
+            margin-right: 8px;
+            color: #c9a227;
+        }
+        @media (max-width: 768px) {
+            .video-showcase { padding: 60px 20px; }
+            .video-wrapper { transform: none; border-radius: 15px; }
+            .video-wrapper:hover { transform: none; }
+            .video-info h3 { font-size: 1.3rem; }
+            .video-info { bottom: 20px; left: 20px; right: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -2080,6 +2193,32 @@ MAIN_PAGE = '''
                 <div class="rotate-hint-3d">
                     <i class="fas fa-hand-pointer"></i> Muovi il mouse per ruotare
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Showcase Section -->
+    <section class="video-showcase" id="video">
+        <div class="section-header reveal">
+            <h2>Serramenti <span>in Azione</span></h2>
+            <div class="accent-bar"></div>
+            <p>Scopri la qualita e l'eleganza dei nostri serramenti in questo video esclusivo</p>
+        </div>
+        <div class="video-container">
+            <div class="video-wrapper">
+                <div class="video-badge"><i class="fas fa-play-circle"></i> Video HD</div>
+                <video controls playsinline poster="">
+                    <source src="/static/Serramenti_Moderni_per_Casa_Alpina.mp4" type="video/mp4">
+                    Il tuo browser non supporta il tag video.
+                </video>
+                <div class="video-overlay"></div>
+                <div class="video-info">
+                    <h3>Serramenti Moderni per Casa Alpina</h3>
+                    <p>Design contemporaneo, isolamento termico superiore e massima luminosita</p>
+                </div>
+            </div>
+            <div class="video-controls-hint">
+                <i class="fas fa-volume-up"></i> Clicca sul video per riprodurre con audio
             </div>
         </div>
     </section>
@@ -3917,6 +4056,11 @@ THANKS_PAGE = '''
 </body>
 </html>
 '''
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    """Serve static files (video, images, etc.)"""
+    return send_from_directory('static', filename)
 
 @app.route('/')
 @rate_limit(max_requests=60, window=60)
