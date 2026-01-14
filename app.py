@@ -3183,24 +3183,29 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
         }
         .form-group textarea { min-height: 100px; resize: vertical; }
         .ai-box {
-            background: linear-gradient(135deg, #667eea15, #764ba215);
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
+            background: linear-gradient(135deg, rgba(26,26,46,0.05), rgba(201,162,39,0.08));
+            border: 2px solid #c9a227;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
         }
-        .ai-box h4 { color: #667eea; margin-bottom: 10px; }
+        .ai-box h4 {
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+        .ai-box h4 span { color: #c9a227; font-style: italic; }
         .ai-response { background: white; padding: 15px; border-radius: 8px; white-space: pre-wrap; font-family: monospace; font-size: 13px; }
         .loading { display: none; text-align: center; padding: 20px; }
         .loading.active { display: block; }
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #667eea; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #c9a227; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @media (max-width: 768px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .navbar { flex-direction: column; gap: 15px; }
         }
-        /* Floating Gemini AI Button */
-        .gemini-float {
+        /* ARIA AI Assistant - Floating Button */
+        .aria-float {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -3209,43 +3214,125 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
             align-items: flex-end;
             gap: 15px;
         }
-        .gemini-bubble {
-            background: white;
-            padding: 15px 20px;
+        .aria-bubble {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 20px 25px;
             border-radius: 20px 20px 5px 20px;
-            box-shadow: 0 5px 25px rgba(102,126,234,0.3);
-            max-width: 250px;
+            box-shadow: 0 10px 40px rgba(201,162,39,0.3);
+            max-width: 280px;
             animation: bubblePop 0.5s ease;
+            border: 1px solid rgba(201,162,39,0.3);
         }
-        .gemini-bubble p { margin: 0; color: #333; font-size: 14px; }
-        .gemini-bubble strong { color: #667eea; }
+        .aria-bubble p { margin: 0; color: #fff; font-size: 14px; line-height: 1.5; }
+        .aria-bubble .aria-name {
+            color: #c9a227;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 8px;
+        }
         @keyframes bubblePop {
             0% { opacity: 0; transform: scale(0.8) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-        .gemini-btn {
-            width: 70px;
-            height: 70px;
+        .aria-btn {
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border: none;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 3px solid #c9a227;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
-            box-shadow: 0 5px 25px rgba(102,126,234,0.4);
+            box-shadow: 0 10px 40px rgba(201,162,39,0.4);
             transition: all 0.3s;
-            animation: pulse 2s infinite;
+            animation: ariaPulse 2s infinite;
+            position: relative;
+            overflow: hidden;
         }
-        .gemini-btn:hover { transform: scale(1.1); box-shadow: 0 8px 35px rgba(102,126,234,0.5); }
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 5px 25px rgba(102,126,234,0.4); }
-            50% { box-shadow: 0 5px 35px rgba(102,126,234,0.6); }
+        .aria-btn::before {
+            content: 'ARIA';
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 16px;
+            color: #c9a227;
+            font-weight: 600;
+        }
+        .aria-btn::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #28a745;
+            border-radius: 50%;
+            top: 8px;
+            right: 8px;
+            animation: statusPulse 1.5s infinite;
+        }
+        .aria-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(201,162,39,0.5);
+            border-color: #d4af37;
+        }
+        @keyframes ariaPulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(201,162,39,0.4); }
+            50% { box-shadow: 0 10px 50px rgba(201,162,39,0.6); }
+        }
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
         /* Gold accent like main site */
         .gold-accent { color: #c9a227; }
         .card-gold { border-left: 4px solid #c9a227; }
+        /* AI Card styling */
+        .ai-card {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(201,162,39,0.1) 0%, transparent 70%);
+        }
+        .ai-card h2 {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 15px;
+        }
+        .ai-card h2 em { color: #c9a227; }
+        .ai-card p { color: rgba(255,255,255,0.7); margin-bottom: 20px; }
+        .ai-card .aria-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(201,162,39,0.1);
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(201,162,39,0.3);
+            margin-bottom: 20px;
+        }
+        .ai-card .aria-logo span {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 24px;
+            color: #c9a227;
+        }
+        .ai-card .aria-logo small {
+            color: rgba(255,255,255,0.6);
+            font-size: 11px;
+        }
     </style>
 </head>
 <body>
@@ -3286,10 +3373,14 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
             </div>
         </div>
 
-        <div class="card">
-            <h2>🤖 Nuovo Preventivo con <em>AI</em></h2>
-            <p style="color:#666;margin-bottom:20px;font-size:14px">Genera preventivi automatici con Gemini AI in pochi secondi</p>
-            <button class="btn btn-ai" onclick="openModal('nuovo')" style="font-size:16px;padding:15px 30px">✨ Crea Preventivo con Gemini AI</button>
+        <div class="ai-card">
+            <div class="aria-logo">
+                <span>ARIA</span>
+                <small>AI Rapida Intelligente Assistente</small>
+            </div>
+            <h2>Crea Preventivi con <em>Intelligenza Artificiale</em></h2>
+            <p>ARIA analizza le richieste dei clienti e genera preventivi professionali in pochi secondi, con prezzi accurati e descrizioni dettagliate.</p>
+            <button class="btn btn-ai" onclick="openModal('nuovo')" style="font-size:16px;padding:15px 35px;background:linear-gradient(135deg,#c9a227,#d4af37);color:#1a1a2e;border:none;border-radius:30px;font-weight:600;cursor:pointer">✨ Genera Preventivo con ARIA</button>
         </div>
 
         <div class="card">
@@ -3370,7 +3461,7 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
     <div class="modal" id="modal-nuovo">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🤖 Nuovo Preventivo con AI</h2>
+                <h2 style="font-family:'Playfair Display',serif"><span style="color:#c9a227;font-style:italic">ARIA</span> - Nuovo Preventivo</h2>
                 <button class="modal-close" onclick="closeModal('nuovo')">&times;</button>
             </div>
             <form id="form-preventivo" onsubmit="submitPreventivo(event)">
@@ -3405,15 +3496,15 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p style="margin-top:15px;color:#667eea">Gemini AI sta elaborando il preventivo...</p>
+                <p style="margin-top:20px;color:#c9a227;font-family:'Playfair Display',serif;font-style:italic;font-size:16px">ARIA sta elaborando il preventivo...</p>
             </div>
 
             <div class="ai-box" id="ai-result" style="display:none">
-                <h4>🤖 Preventivo Generato dall'AI</h4>
+                <h4>✨ Preventivo generato da <span>ARIA</span></h4>
                 <div class="ai-response" id="ai-response-text"></div>
-                <div style="margin-top:20px;display:flex;gap:10px">
-                    <button class="btn btn-success" onclick="inviaConferma()">📧 Invia per Conferma</button>
-                    <button class="btn btn-primary" onclick="rigeneraAI()">🔄 Rigenera</button>
+                <div style="margin-top:25px;display:flex;gap:15px;flex-wrap:wrap">
+                    <button class="btn" onclick="inviaConferma()" style="background:linear-gradient(135deg,#28a745,#20c997);color:white;padding:12px 25px;border:none;border-radius:25px;font-weight:600;cursor:pointer">📧 Invia per Conferma</button>
+                    <button class="btn" onclick="rigeneraAI()" style="background:linear-gradient(135deg,#c9a227,#d4af37);color:#1a1a2e;padding:12px 25px;border:none;border-radius:25px;font-weight:600;cursor:pointer">🔄 Rigenera con ARIA</button>
                 </div>
             </div>
         </div>
@@ -3430,24 +3521,28 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- Floating Gemini AI Button -->
-    <div class="gemini-float">
-        <div class="gemini-bubble" id="gemini-bubble">
-            <p>👋 <strong>Ciao!</strong> Sono Gemini AI.<br>Clicca qui per creare un preventivo automatico!</p>
+    <!-- ARIA AI Assistant - Floating Button -->
+    <div class="aria-float">
+        <div class="aria-bubble" id="aria-bubble">
+            <span class="aria-name">Ciao, sono ARIA</span>
+            <p>La tua assistente AI per preventivi.<br>Clicca per creare un preventivo in automatico!</p>
         </div>
-        <button class="gemini-btn" onclick="openModal('nuovo')" title="Crea Preventivo con AI">
-            🤖
-        </button>
+        <button class="aria-btn" onclick="openModal('nuovo')" title="ARIA - Crea Preventivo con AI"></button>
     </div>
 
     <script>
         let currentPreventivoId = null;
 
-        // Nascondi bubble dopo 10 secondi
+        // Nascondi bubble ARIA dopo 8 secondi
         setTimeout(() => {
-            const bubble = document.getElementById('gemini-bubble');
-            if (bubble) bubble.style.display = 'none';
-        }, 10000);
+            const bubble = document.getElementById('aria-bubble');
+            if (bubble) {
+                bubble.style.opacity = '0';
+                bubble.style.transform = 'translateY(20px)';
+                bubble.style.transition = 'all 0.5s ease';
+                setTimeout(() => bubble.style.display = 'none', 500);
+            }
+        }, 8000);
 
         function openModal(id) { document.getElementById('modal-' + id).classList.add('active'); }
         function closeModal(id) { document.getElementById('modal-' + id).classList.remove('active'); }
