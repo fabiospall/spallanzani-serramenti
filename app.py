@@ -3136,6 +3136,53 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .navbar { flex-direction: column; gap: 15px; }
         }
+        /* Floating Gemini AI Button */
+        .gemini-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+        .gemini-bubble {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px 20px 5px 20px;
+            box-shadow: 0 5px 25px rgba(102,126,234,0.3);
+            max-width: 250px;
+            animation: bubblePop 0.5s ease;
+        }
+        .gemini-bubble p { margin: 0; color: #333; font-size: 14px; }
+        .gemini-bubble strong { color: #667eea; }
+        @keyframes bubblePop {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .gemini-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 5px 25px rgba(102,126,234,0.4);
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+        .gemini-btn:hover { transform: scale(1.1); box-shadow: 0 8px 35px rgba(102,126,234,0.5); }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 5px 25px rgba(102,126,234,0.4); }
+            50% { box-shadow: 0 5px 35px rgba(102,126,234,0.6); }
+        }
+        /* Gold accent like main site */
+        .gold-accent { color: #c9a227; }
+        .card-gold { border-left: 4px solid #c9a227; }
     </style>
 </head>
 <body>
@@ -3314,8 +3361,24 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
         </div>
     </div>
 
+    <!-- Floating Gemini AI Button -->
+    <div class="gemini-float">
+        <div class="gemini-bubble" id="gemini-bubble">
+            <p>👋 <strong>Ciao!</strong> Sono Gemini AI.<br>Clicca qui per creare un preventivo automatico!</p>
+        </div>
+        <button class="gemini-btn" onclick="openModal('nuovo')" title="Crea Preventivo con AI">
+            🤖
+        </button>
+    </div>
+
     <script>
         let currentPreventivoId = null;
+
+        // Nascondi bubble dopo 10 secondi
+        setTimeout(() => {
+            const bubble = document.getElementById('gemini-bubble');
+            if (bubble) bubble.style.display = 'none';
+        }, 10000);
 
         function openModal(id) { document.getElementById('modal-' + id).classList.add('active'); }
         function closeModal(id) { document.getElementById('modal-' + id).classList.remove('active'); }
