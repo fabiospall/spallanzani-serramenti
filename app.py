@@ -2543,6 +2543,70 @@ MAIN_PAGE = '''
                             <a href="#contatti" class="product-btn">Preventivo</a>
                         </div>
                     </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="a7" onclick="openProductModal('a7')" onmousemove="rotate3D(event, 'a7')" onmouseleave="reset3D('a7')">
+                            <span class="product-tag">Arieni</span>
+                            <div class="product-3d-wrapper gpu" id="a7">
+                                <img src="https://www.arienisrl.com/wp-content/uploads/Quasar-crs.png" alt="Quasar CRS">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Contemporary</div>
+                            <h4 class="product-name">Quasar CRS</h4>
+                            <p class="product-desc">Design futuristico con finitura cromo satinato brillante.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="a8" onclick="openProductModal('a8')" onmousemove="rotate3D(event, 'a8')" onmouseleave="reset3D('a8')">
+                            <span class="product-tag">Arieni</span>
+                            <div class="product-3d-wrapper gpu" id="a8">
+                                <img src="https://www.arienisrl.com/wp-content/uploads/Duna-olv.png" alt="Duna OLV">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Contemporary</div>
+                            <h4 class="product-name">Duna OLV</h4>
+                            <p class="product-desc">Linee ondulate eleganti, finitura ottone lucido vintage.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="a9" onclick="openProductModal('a9')" onmousemove="rotate3D(event, 'a9')" onmouseleave="reset3D('a9')">
+                            <span class="product-tag">Arieni</span>
+                            <div class="product-3d-wrapper gpu" id="a9">
+                                <img src="https://www.arienisrl.com/wp-content/uploads/Venus-ocr.png" alt="Venus OCR">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Contemporary</div>
+                            <h4 class="product-name">Venus OCR</h4>
+                            <p class="product-desc">Eleganza classica rivisitata, ottone cromato lucido.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="a10" onclick="openProductModal('a10')" onmousemove="rotate3D(event, 'a10')" onmouseleave="reset3D('a10')">
+                            <span class="product-tag">Arieni</span>
+                            <div class="product-3d-wrapper gpu" id="a10">
+                                <img src="https://www.arienisrl.com/wp-content/uploads/2020/06/Chic-1200x600-1-1-1.png" alt="Chic">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Atelier</div>
+                            <h4 class="product-name">Chic OBM</h4>
+                            <p class="product-desc">Stile raffinato per interni di prestigio, ottone brunito.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="brand-section">
@@ -2644,6 +2708,70 @@ MAIN_PAGE = '''
                             <a href="#contatti" class="product-btn">Preventivo</a>
                         </div>
                     </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m7" onclick="openProductModal('m7')" onmousemove="rotate3D(event, 'm7')" onmouseleave="reset3D('m7')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m7">
+                                <img src="https://www.oknoplast.it/media/prolux-swing_CcqILC9.jpg" alt="Prolux Swing">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Serie Prolux</div>
+                            <h4 class="product-name">Prolux Swing</h4>
+                            <p class="product-desc">Apertura a vasistas con cerniere nascoste. Design pulito e moderno.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m8" onclick="openProductModal('m8')" onmousemove="rotate3D(event, 'm8')" onmouseleave="reset3D('m8')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m8">
+                                <img src="https://www.oknoplast.it/media/prismatic-evolution.jpg" alt="Prismatic Evolution">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Scorrevole Premium</div>
+                            <h4 class="product-name">Prismatic Evolution</h4>
+                            <p class="product-desc">Scorrevole evoluta con profilo ultra-sottile. Massima luminosita.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m9" onclick="openProductModal('m9')" onmousemove="rotate3D(event, 'm9')" onmouseleave="reset3D('m9')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m9">
+                                <img src="https://www.oknoplast.it/media/winergetic-premium-passive.jpg" alt="Passive House">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Casa Passiva Plus</div>
+                            <h4 class="product-name">Passive House Plus</h4>
+                            <p class="product-desc">Certificazione PHI. Il top per edifici a energia quasi zero.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m10" onclick="openProductModal('m10')" onmousemove="rotate3D(event, 'm10')" onmouseleave="reset3D('m10')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m10">
+                                <img src="https://www.oknoplast.it/media/prolux-plus-hero-04.jpg" alt="Prolux Plus">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Serie Prolux</div>
+                            <h4 class="product-name">Prolux Plus</h4>
+                            <p class="product-desc">Evoluzione Prolux con ferramenta premium e vetro selettivo.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="brand-section">
@@ -2742,6 +2870,70 @@ MAIN_PAGE = '''
                             <div class="product-cat">Facciata</div>
                             <h4 class="product-name">Facciata Continua FC50</h4>
                             <p class="product-desc">Sistema facciata continua per edifici commerciali e residenziali.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e7" onclick="openProductModal('e7')" onmousemove="rotate3D(event, 'e7')" onmouseleave="reset3D('e7')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e7">
+                                <img src="https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/m/i/minimal_porta_2_ante_vetro.jpg" alt="Minimal Glass">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Minimal</div>
+                            <h4 class="product-name">Minimal Glass</h4>
+                            <p class="product-desc">Porta vetrata minimal con profilo invisibile. Design contemporaneo.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e8" onclick="openProductModal('e8')" onmousemove="rotate3D(event, 'e8')" onmouseleave="reset3D('e8')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e8">
+                                <img src="https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/n/c/nc-s_75_sti_he_porta_finestra_1_anta_con_traverso.jpg" alt="NC75 Premium">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Premium 75</div>
+                            <h4 class="product-name">NC75 Premium</h4>
+                            <p class="product-desc">Portafinestra 75mm ad alte prestazioni. Isolamento classe A.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e9" onclick="openProductModal('e9')" onmousemove="rotate3D(event, 'e9')" onmouseleave="reset3D('e9')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e9">
+                                <img src="https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/p/o/polaris_hi_porta_1_anta_con_traverso_e_sopraluce_fisso.jpg" alt="Polaris HI">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">High Insulation</div>
+                            <h4 class="product-name">Polaris HI</h4>
+                            <p class="product-desc">Sistema High Insulation per climi estremi. Uw 0.8 W/m2K.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e10" onclick="openProductModal('e10')" onmousemove="rotate3D(event, 'e10')" onmouseleave="reset3D('e10')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e10">
+                                <img src="https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/n/c/nc-s_65_sti_scorrevole_2_ante_con_sopraluce_fisso.jpg" alt="Scorrevole NC65">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Scorrevole STI</div>
+                            <h4 class="product-name">Scorrevole NC65 STI</h4>
+                            <p class="product-desc">Scorrevole parallelo a taglio termico. Ampia superficie vetrata.</p>
                             <a href="#contatti" class="product-btn">Preventivo</a>
                         </div>
                     </div>
@@ -2960,7 +3152,22 @@ MAIN_PAGE = '''
         e3: { brand: 'Eproditalia', name: 'TB65 Top', img: 'https://images.ctfassets.net/hd6763cyzwa4/7BF16hQR10jid6b28Lyipz/87c43f925e71483a6d4b323e082b34fb/Still_Alluminio_TOP_TB_65.jpg', ai: "Il TB65 Top e il sistema top performance con isolamento termico superiore. Ideale per edifici ad alta efficienza energetica.", specs: [['Prestazioni', 'Top'], ['Profilo', '65mm'], ['Uw', '1.0 W/m2K'], ['Garanzia', '10 anni']] },
         e4: { brand: 'Eproditalia', name: 'NC65 STI', img: 'https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/n/c/nc-s_65_sti_he_finestra_2_ante_con_traverso_e_sopraluce_a_vasistas.jpg', ai: "Il NC65 STI e il sistema standard a taglio termico. Ottimo rapporto qualita-prezzo per interventi residenziali e commerciali.", specs: [['Tipo', 'Standard'], ['Profilo', '65mm'], ['Uw', '1.4 W/m2K'], ['Garanzia', '10 anni']] },
         e5: { brand: 'Eproditalia', name: 'Scorrevole S80', img: 'https://www.finstral.com/fileadmin/_processed_/b/0/csm_nova-line_ad1f96e0c0.jpg', ai: "Lo Scorrevole S80 e una porta scorrevole alzante in alluminio per grandi vetrate fino a 3 metri. Scorrimento fluido su binari inox.", specs: [['Tipo', 'Scorrevole alzante'], ['Larghezza max', '3 metri'], ['Binari', 'Inox'], ['Garanzia', '10 anni']] },
-        e6: { brand: 'Eproditalia', name: 'Facciata Continua FC50', img: 'https://www.schuco.com/resource/image/1039420/landscape_ratio3x2/585/390/52e1c3edcba2cb57af97d56a4fa0baaa/80C1D5E5E8F1AC67A9B37A0E5BC8D2BA/aws-75-hi-si-green.jpg', ai: "Il sistema Facciata Continua FC50 e ideale per facciate di edifici commerciali e residenziali. Montanti e traversi per vetrate strutturali.", specs: [['Tipo', 'Facciata continua'], ['Sistema', 'Montanti/Traversi'], ['Applicazione', 'Commerciale'], ['Garanzia', '15 anni']] }
+        e6: { brand: 'Eproditalia', name: 'Facciata Continua FC50', img: 'https://www.schuco.com/resource/image/1039420/landscape_ratio3x2/585/390/52e1c3edcba2cb57af97d56a4fa0baaa/80C1D5E5E8F1AC67A9B37A0E5BC8D2BA/aws-75-hi-si-green.jpg', ai: "Il sistema Facciata Continua FC50 e ideale per facciate di edifici commerciali e residenziali. Montanti e traversi per vetrate strutturali.", specs: [['Tipo', 'Facciata continua'], ['Sistema', 'Montanti/Traversi'], ['Applicazione', 'Commerciale'], ['Garanzia', '15 anni']] },
+        // Nuovi prodotti Arieni (a7-a10)
+        a7: { brand: 'Arieni', name: 'Quasar CRS', img: 'https://www.arienisrl.com/wp-content/uploads/Quasar-crs.png', ai: "Il Quasar CRS e una maniglia dal design futuristico con finitura cromo satinato brillante. Linee fluide per ambienti contemporanei.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Cromo Satinato'], ['Design', 'Futuristico'], ['Garanzia', '2 anni']] },
+        a8: { brand: 'Arieni', name: 'Duna OLV', img: 'https://www.arienisrl.com/wp-content/uploads/Duna-olv.png', ai: "La Duna OLV presenta linee ondulate eleganti con finitura ottone lucido vintage. Ispirazione naturale per design organici.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Ottone Lucido'], ['Design', 'Organico'], ['Garanzia', '2 anni']] },
+        a9: { brand: 'Arieni', name: 'Venus OCR', img: 'https://www.arienisrl.com/wp-content/uploads/Venus-ocr.png', ai: "La Venus OCR incarna l eleganza classica rivisitata in chiave moderna. Ottone cromato lucido per ambienti raffinati.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Cromo Lucido'], ['Design', 'Classico Moderno'], ['Garanzia', '2 anni']] },
+        a10: { brand: 'Arieni', name: 'Chic OBM', img: 'https://www.arienisrl.com/wp-content/uploads/2020/06/Chic-1200x600-1-1-1.png', ai: "La Chic OBM e una maniglia della linea Atelier in ottone brunito. Stile raffinato per interni di prestigio.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Brunito'], ['Linea', 'Atelier'], ['Garanzia', '2 anni']] },
+        // Nuovi prodotti Mondocasa (m7-m10)
+        m7: { brand: 'Mondocasa', name: 'Prolux Swing', img: 'https://www.oknoplast.it/media/prolux-swing_CcqILC9.jpg', ai: "Il Prolux Swing offre apertura a vasistas con cerniere nascoste per un design pulito e moderno. Ideale per ventilazione controllata.", specs: [['Tipo', 'Vasistas'], ['Cerniere', 'Nascoste'], ['Design', 'Pulito'], ['Garanzia', '10 anni']] },
+        m8: { brand: 'Mondocasa', name: 'Prismatic Evolution', img: 'https://www.oknoplast.it/media/prismatic-evolution.jpg', ai: "Il Prismatic Evolution e la versione evoluta della scorrevole con profilo ultra-sottile. Massima luminosita e minimo ingombro.", specs: [['Tipo', 'Scorrevole'], ['Profilo', 'Ultra-sottile'], ['Luminosita', 'Massima'], ['Garanzia', '10 anni']] },
+        m9: { brand: 'Mondocasa', name: 'Passive House Plus', img: 'https://www.oknoplast.it/media/winergetic-premium-passive.jpg', ai: "Il Passive House Plus ha certificazione PHI (Passive House Institute). Il top assoluto per edifici a energia quasi zero NZEB.", specs: [['Certificazione', 'PHI'], ['Standard', 'Casa Passiva'], ['Uw', '0.5 W/m2K'], ['Garanzia', '15 anni']] },
+        m10: { brand: 'Mondocasa', name: 'Prolux Plus', img: 'https://www.oknoplast.it/media/prolux-plus-hero-04.jpg', ai: "Il Prolux Plus e l evoluzione della serie Prolux con ferramenta premium e vetro selettivo. Performance superiori.", specs: [['Serie', 'Prolux'], ['Ferramenta', 'Premium'], ['Vetro', 'Selettivo'], ['Garanzia', '10 anni']] },
+        // Nuovi prodotti Eproditalia (e7-e10)
+        e7: { brand: 'Eproditalia', name: 'Minimal Glass', img: 'https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/m/i/minimal_porta_2_ante_vetro.jpg', ai: "Il Minimal Glass e una porta vetrata con profilo quasi invisibile. Design contemporaneo per spazi luminosi.", specs: [['Tipo', 'Porta Vetrata'], ['Profilo', 'Invisibile'], ['Design', 'Minimal'], ['Garanzia', '10 anni']] },
+        e8: { brand: 'Eproditalia', name: 'NC75 Premium', img: 'https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/n/c/nc-s_75_sti_he_porta_finestra_1_anta_con_traverso.jpg', ai: "Il NC75 Premium e una portafinestra 75mm ad alte prestazioni. Isolamento classe A per massimo comfort.", specs: [['Profilo', '75mm'], ['Classe', 'A'], ['Prestazioni', 'Alte'], ['Garanzia', '10 anni']] },
+        e9: { brand: 'Eproditalia', name: 'Polaris HI', img: 'https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/p/o/polaris_hi_porta_1_anta_con_traverso_e_sopraluce_fisso.jpg', ai: "Il Polaris HI e il sistema High Insulation per climi estremi. Uw 0.8 W/m2K per massimo risparmio energetico.", specs: [['Sistema', 'High Insulation'], ['Uw', '0.8 W/m2K'], ['Clima', 'Estremo'], ['Garanzia', '15 anni']] },
+        e10: { brand: 'Eproditalia', name: 'Scorrevole NC65 STI', img: 'https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/n/c/nc-s_65_sti_scorrevole_2_ante_con_sopraluce_fisso.jpg', ai: "Lo Scorrevole NC65 STI e un sistema scorrevole parallelo a taglio termico. Ampia superficie vetrata e facilita d uso.", specs: [['Tipo', 'Scorrevole parallelo'], ['Sistema', 'STI'], ['Vetrata', 'Ampia'], ['Garanzia', '10 anni']] }
     };
 
     // ===== FUNZIONI GLOBALI (chiamate da onclick) =====
@@ -4007,70 +4214,163 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Spallanzani</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #f8f9fa;
+            --accent: #c9a227;
+            --accent-light: rgba(201,162,39,0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
             min-height: 100vh;
         }
+        /* Animazioni */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
         .navbar {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            padding: 20px 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, #2d2d2d 100%);
+            padding: 18px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
         }
         .navbar h1 {
             color: #fff;
-            font-size: 26px;
+            font-size: 24px;
             font-family: 'Playfair Display', serif;
             font-weight: 400;
             letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .navbar h1 span { color: #c9a227; font-style: italic; }
-        .navbar-right { display: flex; align-items: center; gap: 20px; }
+        .navbar h1 i { color: var(--accent); font-size: 20px; }
+        .navbar h1 span { color: var(--accent); font-style: italic; }
+        .navbar-right { display: flex; align-items: center; gap: 15px; }
         .user-badge {
-            background: rgba(201,162,39,0.2);
-            color: #c9a227;
-            padding: 8px 15px;
-            border-radius: 20px;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 10px 18px;
+            border-radius: 30px;
             font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(201,162,39,0.3);
         }
+        .user-badge i { font-size: 14px; }
         .logout-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 22px;
+            border-radius: 30px;
             cursor: pointer;
             text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .container { max-width: 1400px; margin: 0 auto; padding: 30px; }
+        .logout-btn:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            transform: translateY(-2px);
+        }
+        .container { max-width: 1500px; margin: 0 auto; padding: 35px; }
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, #333 100%);
+            border-radius: 24px;
+            padding: 35px 40px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+        }
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
+            opacity: 0.5;
+        }
+        .welcome-banner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        .welcome-banner h2 span { color: var(--accent); }
+        .welcome-banner p { opacity: 0.8; font-size: 0.95rem; }
+        .welcome-date {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 16px;
+            text-align: right;
+            backdrop-filter: blur(5px);
+        }
+        .welcome-date .day { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .welcome-date .month { font-size: 0.9rem; opacity: 0.8; }
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 24px;
+            margin-bottom: 35px;
         }
         .stat-card {
             background: white;
             border-radius: 20px;
-            padding: 30px;
+            padding: 28px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.6s ease backwards;
+            border: 1px solid rgba(0,0,0,0.04);
         }
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
         }
         .stat-card::before {
             content: '';
@@ -4079,27 +4379,48 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #c9a227, #d4af37);
         }
-        .stat-card .icon { font-size: 45px; margin-bottom: 15px; }
+        .stat-card:nth-child(1)::before { background: linear-gradient(90deg, var(--success), #34d399); }
+        .stat-card:nth-child(2)::before { background: linear-gradient(90deg, var(--info), #60a5fa); }
+        .stat-card:nth-child(3)::before { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+        .stat-card:nth-child(4)::before { background: linear-gradient(90deg, var(--accent), #d4af37); }
+        .stat-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 24px;
+        }
+        .stat-card:nth-child(1) .icon { background: rgba(16,185,129,0.1); color: var(--success); }
+        .stat-card:nth-child(2) .icon { background: rgba(59,130,246,0.1); color: var(--info); }
+        .stat-card:nth-child(3) .icon { background: rgba(245,158,11,0.1); color: var(--warning); }
+        .stat-card:nth-child(4) .icon { background: var(--accent-light); color: var(--accent); }
         .stat-card .number {
-            font-size: 42px;
-            font-weight: 300;
-            color: #1a1a2e;
-            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1;
         }
         .stat-card .label {
-            color: #888;
-            margin-top: 8px;
-            font-size: 13px;
+            color: #6b7280;
+            margin-top: 10px;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: 500;
         }
         .card {
             background: white;
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 25px;
+            border: 1px solid rgba(0,0,0,0.04);
+            animation: fadeInUp 0.6s ease backwards;
+            animation-delay: 0.5s;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
         .card h2 {
@@ -4348,37 +4669,43 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
 </head>
 <body>
     <nav class="navbar">
-        <h1>SPALLANZANI<span>®</span> Dashboard</h1>
+        <h1><i class="fas fa-shield-alt"></i> SPALLANZANI<span>®</span> Dashboard</h1>
         <div class="navbar-right">
-            <div class="user-badge">👤 {{ username }}</div>
-            <a href="/admin/logout" class="logout-btn">Logout</a>
+            <div class="user-badge"><i class="fas fa-user-circle"></i> {{ username }}</div>
+            <a href="/admin/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </nav>
 
     <div class="container">
         <div class="welcome-banner">
-            <h2>Benvenuto, <span>{{ username }}</span></h2>
-            <p>Gestisci preventivi, richieste clienti e genera quotazioni con l'intelligenza artificiale</p>
+            <div>
+                <h2>Benvenuto, <span>{{ username }}</span></h2>
+                <p>Gestisci preventivi, richieste clienti e genera quotazioni con l'intelligenza artificiale</p>
+            </div>
+            <div class="welcome-date">
+                <div class="day" id="currentDay"></div>
+                <div class="month" id="currentMonth"></div>
+            </div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="icon">📋</div>
+                <div class="icon"><i class="fas fa-file-invoice"></i></div>
                 <div class="number">{{ stats.totali }}</div>
                 <div class="label">Preventivi Totali</div>
             </div>
             <div class="stat-card">
-                <div class="icon">🆕</div>
+                <div class="icon"><i class="fas fa-plus-circle"></i></div>
                 <div class="number">{{ stats.nuovi }}</div>
                 <div class="label">Nuovi</div>
             </div>
             <div class="stat-card">
-                <div class="icon">⏳</div>
+                <div class="icon"><i class="fas fa-clock"></i></div>
                 <div class="number">{{ stats.attesa }}</div>
                 <div class="label">In Attesa Conferma</div>
             </div>
             <div class="stat-card">
-                <div class="icon">✅</div>
+                <div class="icon"><i class="fas fa-check-circle"></i></div>
                 <div class="number">{{ stats.inviati }}</div>
                 <div class="label">Inviati</div>
             </div>
@@ -4386,12 +4713,13 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
 
         <div class="ai-card">
             <div class="aria-logo">
+                <i class="fas fa-robot" style="font-size:28px;color:#c9a227"></i>
                 <span>ARIA</span>
                 <small>AI Rapida Intelligente Assistente</small>
             </div>
             <h2>Crea Preventivi con <em>Intelligenza Artificiale</em></h2>
             <p>ARIA analizza le richieste dei clienti e genera preventivi professionali in pochi secondi, con prezzi accurati e descrizioni dettagliate.</p>
-            <button class="btn btn-ai" onclick="openModal('nuovo')" style="font-size:16px;padding:15px 35px;background:linear-gradient(135deg,#c9a227,#d4af37);color:#1a1a2e;border:none;border-radius:30px;font-weight:600;cursor:pointer">✨ Genera Preventivo con ARIA</button>
+            <button class="btn btn-ai" onclick="openModal('nuovo')" style="font-size:16px;padding:15px 35px;background:linear-gradient(135deg,#c9a227,#d4af37);color:#1a1a2e;border:none;border-radius:30px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px"><i class="fas fa-magic"></i> Genera Preventivo con ARIA</button>
         </div>
 
         <div class="card">
@@ -4661,6 +4989,15 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
                 }
             }
         }
+
+        // Mostra data corrente nel welcome banner
+        (function() {
+            var now = new Date();
+            var days = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+            var months = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            document.getElementById('currentDay').textContent = now.getDate();
+            document.getElementById('currentMonth').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
+        })();
     </script>
 </body>
 </html>'''
