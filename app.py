@@ -2047,6 +2047,11 @@ MAIN_PAGE = '''
             width: 100%;
             display: block;
             border-radius: 20px;
+            filter: brightness(1.05) contrast(1.08) saturate(1.15);
+            transition: filter 0.3s ease;
+        }
+        .video-wrapper:hover video {
+            filter: brightness(1.1) contrast(1.1) saturate(1.2);
         }
         .video-overlay {
             position: absolute;
@@ -2101,6 +2106,28 @@ MAIN_PAGE = '''
         .video-controls-hint i {
             margin-right: 8px;
             color: #c9a227;
+        }
+        .video-brand-watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, rgba(26,26,26,0.95), rgba(45,45,45,0.95));
+            color: #c9a227;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 10;
+            border: 1px solid rgba(201,162,39,0.5);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            font-family: 'Playfair Display', serif;
+        }
+        .video-brand-watermark span {
+            color: #fff;
+            font-weight: 400;
         }
         @media (max-width: 768px) {
             .video-showcase { padding: 60px 20px; }
@@ -2212,6 +2239,7 @@ MAIN_PAGE = '''
                     Il tuo browser non supporta il tag video.
                 </video>
                 <div class="video-overlay"></div>
+                <div class="video-brand-watermark">Spallanzani <span>Rappresentanze</span></div>
                 <div class="video-info">
                     <h3>Serramenti Moderni per Casa Alpina</h3>
                     <p>Design contemporaneo, isolamento termico superiore e massima luminosita</p>
