@@ -2130,11 +2130,53 @@ MAIN_PAGE = '''
             font-weight: 400;
         }
         @media (max-width: 768px) {
-            .video-showcase { padding: 60px 20px; }
-            .video-wrapper { transform: none; border-radius: 15px; }
+            .video-showcase { padding: 60px 15px; }
+            .video-wrapper {
+                transform: none;
+                border-radius: 12px;
+                aspect-ratio: 16/9;
+                overflow: hidden;
+            }
             .video-wrapper:hover { transform: none; }
-            .video-info h3 { font-size: 1.3rem; }
-            .video-info { bottom: 20px; left: 20px; right: 20px; }
+            .video-wrapper video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 12px;
+            }
+            .video-info {
+                bottom: 50px;
+                left: 15px;
+                right: 15px;
+            }
+            .video-info h3 {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+            }
+            .video-info p {
+                font-size: 0.85rem;
+                display: none;
+            }
+            .video-badge {
+                top: 10px;
+                left: 10px;
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+            .video-brand-watermark {
+                bottom: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 0.75rem;
+                letter-spacing: 1px;
+            }
+            .video-controls-hint {
+                font-size: 0.8rem;
+                margin-top: 15px;
+            }
+            .video-overlay {
+                border-radius: 12px;
+            }
         }
     </style>
 </head>
