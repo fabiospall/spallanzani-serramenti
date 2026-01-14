@@ -38,11 +38,18 @@ Sito web per Spallanzani Rappresentanze - azienda che rappresenta marchi di port
 - **Definitiva:** spallanzanirappresentanze@gmail.com
 
 ## Funzionalità Implementate
-1. Homepage con catalogo prodotti 3D
-2. Chatbot AI integrato
+1. Homepage con catalogo prodotti 3D interattivo
+2. **Chatbot AI con Gemini** - Risposte intelligenti su tutti i brand
 3. Form contatti con honeypot anti-bot
 4. Sistema registrazione utenti
-5. **Area Admin:**
+5. **Filtri prodotti per brand** - Ricerca rapida per categoria
+6. **38 prodotti totali:**
+   - 10 porte Flessya
+   - 10 porte blindate Di.Bi.
+   - 6 maniglie Arieni
+   - 6 serramenti PVC Mondocasa (NUOVO)
+   - 6 infissi alluminio Eproditalia (NUOVO)
+7. **Area Admin:**
    - Login sicuro con anti-brute force (5 tentativi max, blocco 30 min)
    - Dashboard preventivi
    - Generazione preventivi con Gemini AI
@@ -60,10 +67,15 @@ Sito web per Spallanzani Rappresentanze - azienda che rappresenta marchi di port
 - Input sanitization
 
 ## TODO Rimanenti
+- [x] Aggiungere catalogo completo prodotti Mondocasa
+- [x] Aggiungere catalogo completo prodotti Eproditalia
+- [x] Chatbot AI con Gemini integrato
+- [x] Sistema filtri prodotti per brand
 - [ ] Testare sistema AI preventivi (dopo deploy)
-- [ ] Aggiungere catalogo completo prodotti aziende
 - [ ] Cambiare email a spallanzanirappresentanze@gmail.com
 - [ ] Acquistare dominio personalizzato
+- [ ] Aggiungere sezione recensioni/testimonianze (opzionale)
+- [ ] Sostituire immagini placeholder con foto ufficiali brand
 
 ## Contatti
 - Email: spallanzanirappresentanze@gmail.com

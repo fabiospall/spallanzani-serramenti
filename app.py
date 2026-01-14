@@ -576,6 +576,57 @@ MAIN_PAGE = '''
             --text-muted: #6c757d;
             --accent: #343a40;
             --smart: rgba(70, 130, 180, 0.9);
+            --transition-fast: 0.2s ease;
+            --transition-medium: 0.4s ease;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.16);
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --primary: #121212;
+            --secondary: #1e1e1e;
+            --tertiary: #2d2d2d;
+            --dark: #ffffff;
+            --grey: #a0a0a0;
+            --grey-light: #707070;
+            --border: #3d3d3d;
+            --text: #e8e8e8;
+            --text-muted: #a0a0a0;
+            --accent: #e0e0e0;
+        }
+
+        [data-theme="dark"] .hero {
+            background: linear-gradient(180deg, #1e1e1e 0%, #121212 50%, #1a1a1a 100%);
+        }
+
+        [data-theme="dark"] header {
+            background: #121212;
+        }
+
+        [data-theme="dark"] .header-top {
+            background: #0a0a0a;
+        }
+
+        [data-theme="dark"] .product-3d-box {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
+        }
+
+        [data-theme="dark"] .door-3d-panel::before {
+            filter: brightness(0.7);
+        }
+
+        [data-theme="dark"] .modal-ai-box {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
+        }
+
+        [data-theme="dark"] .modal-ai-text {
+            color: #e8e8e8;
+        }
+
+        [data-theme="dark"] #map {
+            filter: saturate(0.5) brightness(0.9);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: auto; }
@@ -603,6 +654,100 @@ MAIN_PAGE = '''
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .theme-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--dark);
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+        }
+        .theme-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+        .theme-btn.active {
+            background: var(--dark);
+            color: var(--primary);
+        }
+        @media (max-width: 768px) {
+            .theme-toggle {
+                left: 10px;
+                top: auto;
+                bottom: 100px;
+            }
+            .theme-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
 
         /* Welcome Modal - Fixed */
         .welcome-overlay {
@@ -940,15 +1085,35 @@ MAIN_PAGE = '''
             margin: 0 auto;
         }
         .brand-card {
-            background: #fff;
+            background: var(--primary);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 35px 25px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.15s ease;
+            transition: all var(--transition-medium);
+            position: relative;
+            overflow: hidden;
         }
-        .brand-card:hover { transform: translateY(-4px); }
+        .brand-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(0,0,0,0.03) 100%);
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+        .brand-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--dark);
+        }
+        .brand-card:hover::before {
+            opacity: 1;
+        }
         .brand-title {
             font-size: 1.4rem;
             font-weight: 700;
@@ -960,9 +1125,74 @@ MAIN_PAGE = '''
         .brand-name { font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--dark); }
         .brand-desc { font-size: 0.85rem; font-style: italic; color: var(--grey); line-height: 1.6; }
 
+        /* Product Filters - Modern Design */
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 50px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,250,0.9));
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .filter-btn {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--grey);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(26,26,26,0.1), transparent);
+            transition: left 0.5s;
+        }
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+        .filter-btn:hover {
+            border-color: var(--dark);
+            color: var(--dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .filter-btn.active {
+            background: var(--dark);
+            border-color: var(--dark);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(26,26,26,0.3);
+        }
+        .filter-btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26,26,26,0.4);
+        }
+        @media (max-width: 768px) {
+            .filter-bar { padding: 15px; gap: 8px; }
+            .filter-btn { padding: 10px 18px; font-size: 0.8rem; }
+        }
+
         /* Products */
         .products-container { max-width: 1500px; margin: 0 auto; }
-        .brand-section { margin-bottom: 100px; }
+        .brand-section {
+            margin-bottom: 100px;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
         .brand-section-title {
             font-family: 'Playfair Display', serif;
             font-size: 2.2rem;
@@ -988,14 +1218,30 @@ MAIN_PAGE = '''
             gap: 30px;
         }
         .product-card {
-            background: #fff;
+            background: var(--primary);
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border);
             cursor: pointer;
-            transition: transform 0.15s ease;
+            transition: all var(--transition-medium);
+            position: relative;
         }
-        .product-card:hover { transform: translateY(-4px); }
+        .product-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            box-shadow: 0 0 0 0 var(--dark);
+            transition: box-shadow var(--transition-fast);
+            pointer-events: none;
+        }
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+        .product-card:hover::after {
+            box-shadow: inset 0 0 0 2px var(--dark);
+        }
         .product-3d-box {
             height: 260px;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -1773,6 +2019,13 @@ MAIN_PAGE = '''
         });
     </script>
 
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-btn" id="themeToggle" title="Cambia tema">
+            <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
+
     <header>
         <div class="header-top">
             <a href="tel:+393356928280"><i class="fas fa-phone"></i> +39 335 692 8280</a>
@@ -1832,25 +2085,33 @@ MAIN_PAGE = '''
     </section>
 
     <section class="section section-alt" id="marchi">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2>I Marchi che <span>Rappresentiamo</span></h2>
             <div class="accent-bar"></div>
             <p>Partner esclusivi dei migliori brand italiani nel settore porte e serramenti</p>
         </div>
         <div class="brands-grid">
-            <div class="brand-card"><div class="brand-title">FLESSYA</div><div class="brand-name">Flessya</div><div class="brand-desc">Porte per interni Made in Italy. Linee Nidio, Kikka, Vetra con oltre 100 finiture.</div></div>
-            <div class="brand-card"><div class="brand-title">MONDOCASA</div><div class="brand-name">Mondocasa</div><div class="brand-desc">Serramenti in PVC ad alto isolamento termico e acustico.</div></div>
-            <div class="brand-card"><div class="brand-title">EPROD</div><div class="brand-name">Eproditalia</div><div class="brand-desc">Infissi in alluminio a taglio termico di ultima generazione.</div></div>
-            <div class="brand-card"><div class="brand-title">ARIENI</div><div class="brand-name">Arieni Maniglie</div><div class="brand-desc">Maniglieria di design in ottone e acciaio dal 1997.</div></div>
-            <div class="brand-card"><div class="brand-title">Di.Bi.</div><div class="brand-name">Di.Bi. Blindate</div><div class="brand-desc">Porte blindate certificate classe 3, 4 e 5 dal 1976.</div></div>
+            <div class="brand-card reveal-scale stagger-1"><div class="brand-title">FLESSYA</div><div class="brand-name">Flessya</div><div class="brand-desc">Porte per interni Made in Italy. Linee Nidio, Kikka, Vetra con oltre 100 finiture.</div></div>
+            <div class="brand-card reveal-scale stagger-2"><div class="brand-title">MONDOCASA</div><div class="brand-name">Mondocasa</div><div class="brand-desc">Serramenti in PVC ad alto isolamento termico e acustico.</div></div>
+            <div class="brand-card reveal-scale stagger-3"><div class="brand-title">EPROD</div><div class="brand-name">Eproditalia</div><div class="brand-desc">Infissi in alluminio a taglio termico di ultima generazione.</div></div>
+            <div class="brand-card reveal-scale stagger-4"><div class="brand-title">ARIENI</div><div class="brand-name">Arieni Maniglie</div><div class="brand-desc">Maniglieria di design in ottone e acciaio dal 1997.</div></div>
+            <div class="brand-card reveal-scale stagger-5"><div class="brand-title">Di.Bi.</div><div class="brand-name">Di.Bi. Blindate</div><div class="brand-desc">Porte blindate certificate classe 3, 4 e 5 dal 1976.</div></div>
         </div>
     </section>
 
     <section class="section" id="prodotti">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2>I Nostri <span>Prodotti</span></h2>
             <div class="accent-bar"></div>
             <p>Catalogo completo diviso per brand - Doppio click per rotazione 3D</p>
+        </div>
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterProducts('all')">Tutti</button>
+            <button class="filter-btn" onclick="filterProducts('flessya')">Flessya</button>
+            <button class="filter-btn" onclick="filterProducts('dibi')">Di.Bi.</button>
+            <button class="filter-btn" onclick="filterProducts('arieni')">Arieni</button>
+            <button class="filter-btn" onclick="filterProducts('mondocasa')">Mondocasa</button>
+            <button class="filter-btn" onclick="filterProducts('eproditalia')">Eproditalia</button>
         </div>
         <div class="products-container">
             <div class="brand-section">
@@ -2284,6 +2545,208 @@ MAIN_PAGE = '''
                     </div>
                 </div>
             </div>
+            <div class="brand-section">
+                <h3 class="brand-section-title">Mondocasa <span>Serramenti PVC</span></h3>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m1" onclick="openProductModal('m1')" onmousemove="rotate3D(event, 'm1')" onmouseleave="reset3D('m1')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m1">
+                                <img src="https://www.oknoplast.it/media/prolux-evolution_3RiRmAh.jpg" alt="Evolution 70">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Serie Evolution</div>
+                            <h4 class="product-name">Evolution 70</h4>
+                            <p class="product-desc">Finestra PVC 70mm con triplo vetro. Isolamento termico Uw 0.9 W/m2K.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m2" onclick="openProductModal('m2')" onmousemove="rotate3D(event, 'm2')" onmouseleave="reset3D('m2')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m2">
+                                <img src="https://www.oknoplast.it/media/platinium-plus_TITEs3q.jpg" alt="Platinium Plus">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Serie Premium</div>
+                            <h4 class="product-name">Platinium Plus</h4>
+                            <p class="product-desc">Sistema 85mm con 6 camere. Massimo isolamento termoacustico.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m3" onclick="openProductModal('m3')" onmousemove="rotate3D(event, 'm3')" onmouseleave="reset3D('m3')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m3">
+                                <img src="https://www.oknoplast.it/media/squareline_F4H1tAJ.jpg" alt="Squareline">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Design Minimal</div>
+                            <h4 class="product-name">Squareline</h4>
+                            <p class="product-desc">Profilo squadrato minimal per architetture moderne e contemporanee.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m4" onclick="openProductModal('m4')" onmousemove="rotate3D(event, 'm4')" onmouseleave="reset3D('m4')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m4">
+                                <img src="https://www.oknoplast.it/media/prismatic_iXGjyFa.jpg" alt="Prismatic">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Alta Efficienza</div>
+                            <h4 class="product-name">Prismatic</h4>
+                            <p class="product-desc">Finestra scorrevole alzante con vetrata panoramica fino a 6 metri.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m5" onclick="openProductModal('m5')" onmousemove="rotate3D(event, 'm5')" onmouseleave="reset3D('m5')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m5">
+                                <img src="https://www.oknoplast.it/media/winergetic-premium.jpg" alt="Winergetic">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Casa Passiva</div>
+                            <h4 class="product-name">Winergetic Premium</h4>
+                            <p class="product-desc">Certificato casa passiva. Uw 0.6 W/m2K per massimo risparmio energetico.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="m6" onclick="openProductModal('m6')" onmousemove="rotate3D(event, 'm6')" onmouseleave="reset3D('m6')">
+                            <span class="product-tag">Mondocasa</span>
+                            <div class="product-3d-wrapper gpu" id="m6">
+                                <img src="https://www.oknoplast.it/media/bilico_Y0R5Trp.jpg" alt="Bilico">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Speciale</div>
+                            <h4 class="product-name">Finestra Bilico</h4>
+                            <p class="product-desc">Apertura a bilico orizzontale. Ideale per mansarde e sottotetti.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-section">
+                <h3 class="brand-section-title">Eproditalia <span>Infissi Alluminio</span></h3>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e1" onclick="openProductModal('e1')" onmousemove="rotate3D(event, 'e1')" onmouseleave="reset3D('e1')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e1">
+                                <img src="https://images.ctfassets.net/hd6763cyzwa4/3j4SWNX23pT0g9xXjKJeF3/6f28f41ad2c867b8b6353d1a2fc21eff/Maison_Sentinelle_-_Droits_jusqu-en_février_2032_-_Photographe_et_architecte_Aurélien_Chen__2_.jpg" alt="TT65 Next">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Taglio Termico 65</div>
+                            <h4 class="product-name">TT65 Next</h4>
+                            <p class="product-desc">Alluminio a taglio termico 65mm. Design minimal con profilo sottile.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e2" onclick="openProductModal('e2')" onmousemove="rotate3D(event, 'e2')" onmouseleave="reset3D('e2')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e2">
+                                <img src="https://images.ctfassets.net/hd6763cyzwa4/1CITmzFHp05yaHYd0cAunG/2c79362f407ecd2086a6a1d0246f8e3c/Alpina-wood85_1-copia---modificata-ridotto.jpg" alt="TT85 Wood">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Effetto Legno</div>
+                            <h4 class="product-name">TT85 Wood</h4>
+                            <p class="product-desc">Alluminio con rivestimento effetto legno. Eleganza e resistenza.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e3" onclick="openProductModal('e3')" onmousemove="rotate3D(event, 'e3')" onmouseleave="reset3D('e3')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e3">
+                                <img src="https://images.ctfassets.net/hd6763cyzwa4/7BF16hQR10jid6b28Lyipz/87c43f925e71483a6d4b323e082b34fb/Still_Alluminio_TOP_TB_65.jpg" alt="TB65 Top">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Top Performance</div>
+                            <h4 class="product-name">TB65 Top</h4>
+                            <p class="product-desc">Sistema top performance con isolamento termico superiore.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e4" onclick="openProductModal('e4')" onmousemove="rotate3D(event, 'e4')" onmouseleave="reset3D('e4')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e4">
+                                <img src="https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/n/c/nc-s_65_sti_he_finestra_2_ante_con_traverso_e_sopraluce_a_vasistas.jpg" alt="NC65 STI">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Standard</div>
+                            <h4 class="product-name">NC65 STI</h4>
+                            <p class="product-desc">Sistema standard a taglio termico. Ottimo rapporto qualita-prezzo.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e5" onclick="openProductModal('e5')" onmousemove="rotate3D(event, 'e5')" onmouseleave="reset3D('e5')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e5">
+                                <img src="https://www.finstral.com/fileadmin/_processed_/b/0/csm_nova-line_ad1f96e0c0.jpg" alt="Scorrevole S80">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Scorrevole</div>
+                            <h4 class="product-name">Scorrevole S80</h4>
+                            <p class="product-desc">Porta scorrevole alzante in alluminio. Vetrate fino a 3 metri.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="e6" onclick="openProductModal('e6')" onmousemove="rotate3D(event, 'e6')" onmouseleave="reset3D('e6')">
+                            <span class="product-tag">Eproditalia</span>
+                            <div class="product-3d-wrapper gpu" id="e6">
+                                <img src="https://www.schuco.com/resource/image/1039420/landscape_ratio3x2/585/390/52e1c3edcba2cb57af97d56a4fa0baaa/80C1D5E5E8F1AC67A9B37A0E5BC8D2BA/aws-75-hi-si-green.jpg" alt="Facciata Continua">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Facciata</div>
+                            <h4 class="product-name">Facciata Continua FC50</h4>
+                            <p class="product-desc">Sistema facciata continua per edifici commerciali e residenziali.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -2431,10 +2894,12 @@ MAIN_PAGE = '''
                 <div class="smart-msg bot">
                     Ciao! Sono <strong>Spallanzani Smart AI</strong>. Come posso aiutarti?
                     <div class="quick-btns">
-                        <button class="quick-btn" onclick="quickMsg('Marchi')">Marchi</button>
-                        <button class="quick-btn" onclick="quickMsg('Preventivo')">Preventivo</button>
-                        <button class="quick-btn" onclick="quickMsg('Zone')">Zone</button>
                         <button class="quick-btn" onclick="quickMsg('Flessya')">Flessya</button>
+                        <button class="quick-btn" onclick="quickMsg('Di.Bi.')">Di.Bi.</button>
+                        <button class="quick-btn" onclick="quickMsg('Mondocasa')">Mondocasa</button>
+                        <button class="quick-btn" onclick="quickMsg('Eproditalia')">Eproditalia</button>
+                        <button class="quick-btn" onclick="quickMsg('Arieni')">Arieni</button>
+                        <button class="quick-btn" onclick="quickMsg('Preventivo')">Preventivo</button>
                     </div>
                 </div>
             </div>
@@ -2481,7 +2946,21 @@ MAIN_PAGE = '''
         d10: { brand: 'Di.Bi.', name: 'Poker2 RAL 9010', img: 'https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_poker2_est_all_pz_bianco_9010_sx_amb_28.jpg', ai: "La Poker2 RAL 9010 in bianco opaco perfetta per ambienti minimal e luminosi. Design pulito.", specs: [['Classe', '3 (EN 1627)'], ['Finitura', 'RAL 9010'], ['Stile', 'Minimal'], ['Garanzia', '5 anni']] },
         // Nuove maniglie Arieni
         a5: { brand: 'Arieni', name: 'Piego CRS', img: 'https://www.arienisrl.com/wp-content/uploads/2020/09/Piego-1200.png', ai: "La Piego CRS presenta linee arrotondate morbide con finitura cromata satinata. Comfort ed eleganza.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Cromo Satinato'], ['Design', 'Arrotondato'], ['Garanzia', '2 anni']] },
-        a6: { brand: 'Arieni', name: 'Ares OCR', img: 'https://www.arienisrl.com/wp-content/uploads/Ares-ocr.png', ai: "L'Ares OCR sfoggia design geometrico minimalista con ottone cromato raffinato. Linea Laser premium.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Cromo'], ['Linea', 'Laser'], ['Garanzia', '2 anni']] }
+        a6: { brand: 'Arieni', name: 'Ares OCR', img: 'https://www.arienisrl.com/wp-content/uploads/Ares-ocr.png', ai: "L'Ares OCR sfoggia design geometrico minimalista con ottone cromato raffinato. Linea Laser premium.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Cromo'], ['Linea', 'Laser'], ['Garanzia', '2 anni']] },
+        // Mondocasa Serramenti PVC
+        m1: { brand: 'Mondocasa', name: 'Evolution 70', img: 'https://www.oknoplast.it/media/prolux-evolution_3RiRmAh.jpg', ai: "L'Evolution 70 e una finestra in PVC a 5 camere con profilo da 70mm. Triplo vetro per massimo isolamento termico Uw 0.9 W/m2K.", specs: [['Profilo', '70mm 5 camere'], ['Vetro', 'Triplo basso emissivo'], ['Isolamento', 'Uw 0.9 W/m2K'], ['Garanzia', '10 anni']] },
+        m2: { brand: 'Mondocasa', name: 'Platinium Plus', img: 'https://www.oknoplast.it/media/platinium-plus_TITEs3q.jpg', ai: "Il Platinium Plus rappresenta il top della gamma con profilo 85mm a 6 camere. Isolamento termoacustico superiore per case ad alta efficienza.", specs: [['Profilo', '85mm 6 camere'], ['Vetro', 'Triplo 48mm'], ['Isolamento', 'Uw 0.7 W/m2K'], ['Garanzia', '15 anni']] },
+        m3: { brand: 'Mondocasa', name: 'Squareline', img: 'https://www.oknoplast.it/media/squareline_F4H1tAJ.jpg', ai: "Lo Squareline presenta profili squadrati dal design minimalista. Perfetto per architetture moderne e contemporanee.", specs: [['Design', 'Minimal squadrato'], ['Profilo', '70mm'], ['Colori', 'RAL personalizzabili'], ['Garanzia', '10 anni']] },
+        m4: { brand: 'Mondocasa', name: 'Prismatic', img: 'https://www.oknoplast.it/media/prismatic_iXGjyFa.jpg', ai: "Il sistema Prismatic e una scorrevole alzante per grandi vetrate panoramiche fino a 6 metri. Massima luminosita e vista senza ostacoli.", specs: [['Tipo', 'Scorrevole alzante'], ['Larghezza max', '6 metri'], ['Vetro', 'Fino a 52mm'], ['Garanzia', '10 anni']] },
+        m5: { brand: 'Mondocasa', name: 'Winergetic Premium', img: 'https://www.oknoplast.it/media/winergetic-premium.jpg', ai: "Winergetic Premium e certificato casa passiva. Con Uw 0.6 W/m2K garantisce il massimo risparmio energetico per edifici NZEB.", specs: [['Certificazione', 'Casa Passiva'], ['Isolamento', 'Uw 0.6 W/m2K'], ['Profilo', '90mm 7 camere'], ['Garanzia', '15 anni']] },
+        m6: { brand: 'Mondocasa', name: 'Finestra Bilico', img: 'https://www.oknoplast.it/media/bilico_Y0R5Trp.jpg', ai: "La finestra a bilico orizzontale e ideale per mansarde e sottotetti. Apertura fino a 180 gradi per facile pulizia e manutenzione.", specs: [['Tipo', 'Bilico orizzontale'], ['Apertura', 'Fino a 180 gradi'], ['Ideale per', 'Mansarde'], ['Garanzia', '10 anni']] },
+        // Eproditalia Infissi Alluminio
+        e1: { brand: 'Eproditalia', name: 'TT65 Next', img: 'https://images.ctfassets.net/hd6763cyzwa4/3j4SWNX23pT0g9xXjKJeF3/6f28f41ad2c867b8b6353d1a2fc21eff/Maison_Sentinelle_-_Droits_jusqu-en_février_2032_-_Photographe_et_architecte_Aurélien_Chen__2_.jpg', ai: "Il TT65 Next e un sistema a taglio termico con profilo da 65mm. Design minimal con linee sottili per massima superficie vetrata.", specs: [['Materiale', 'Alluminio TT'], ['Profilo', '65mm'], ['Uw', '1.2 W/m2K'], ['Garanzia', '10 anni']] },
+        e2: { brand: 'Eproditalia', name: 'TT85 Wood', img: 'https://images.ctfassets.net/hd6763cyzwa4/1CITmzFHp05yaHYd0cAunG/2c79362f407ecd2086a6a1d0246f8e3c/Alpina-wood85_1-copia---modificata-ridotto.jpg', ai: "Il TT85 Wood combina la resistenza dell alluminio con l estetica del legno grazie a rivestimenti sublimatici. Manutenzione zero.", specs: [['Materiale', 'Alluminio + Wood'], ['Profilo', '85mm'], ['Finitura', 'Effetto legno'], ['Garanzia', '15 anni']] },
+        e3: { brand: 'Eproditalia', name: 'TB65 Top', img: 'https://images.ctfassets.net/hd6763cyzwa4/7BF16hQR10jid6b28Lyipz/87c43f925e71483a6d4b323e082b34fb/Still_Alluminio_TOP_TB_65.jpg', ai: "Il TB65 Top e il sistema top performance con isolamento termico superiore. Ideale per edifici ad alta efficienza energetica.", specs: [['Prestazioni', 'Top'], ['Profilo', '65mm'], ['Uw', '1.0 W/m2K'], ['Garanzia', '10 anni']] },
+        e4: { brand: 'Eproditalia', name: 'NC65 STI', img: 'https://www.metrabuilding.com/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/n/c/nc-s_65_sti_he_finestra_2_ante_con_traverso_e_sopraluce_a_vasistas.jpg', ai: "Il NC65 STI e il sistema standard a taglio termico. Ottimo rapporto qualita-prezzo per interventi residenziali e commerciali.", specs: [['Tipo', 'Standard'], ['Profilo', '65mm'], ['Uw', '1.4 W/m2K'], ['Garanzia', '10 anni']] },
+        e5: { brand: 'Eproditalia', name: 'Scorrevole S80', img: 'https://www.finstral.com/fileadmin/_processed_/b/0/csm_nova-line_ad1f96e0c0.jpg', ai: "Lo Scorrevole S80 e una porta scorrevole alzante in alluminio per grandi vetrate fino a 3 metri. Scorrimento fluido su binari inox.", specs: [['Tipo', 'Scorrevole alzante'], ['Larghezza max', '3 metri'], ['Binari', 'Inox'], ['Garanzia', '10 anni']] },
+        e6: { brand: 'Eproditalia', name: 'Facciata Continua FC50', img: 'https://www.schuco.com/resource/image/1039420/landscape_ratio3x2/585/390/52e1c3edcba2cb57af97d56a4fa0baaa/80C1D5E5E8F1AC67A9B37A0E5BC8D2BA/aws-75-hi-si-green.jpg', ai: "Il sistema Facciata Continua FC50 e ideale per facciate di edifici commerciali e residenziali. Montanti e traversi per vetrate strutturali.", specs: [['Tipo', 'Facciata continua'], ['Sistema', 'Montanti/Traversi'], ['Applicazione', 'Commerciale'], ['Garanzia', '15 anni']] }
     };
 
     // ===== FUNZIONI GLOBALI (chiamate da onclick) =====
@@ -2494,7 +2973,7 @@ MAIN_PAGE = '''
         }
     }
 
-    // Invia messaggio chat
+    // Invia messaggio chat con AI Gemini
     function sendSmart() {
         var inp = document.getElementById('smartInput');
         if (!inp) return;
@@ -2503,20 +2982,43 @@ MAIN_PAGE = '''
         addMsg(msg, 'user');
         inp.value = '';
         showTyping();
-        setTimeout(function() {
+
+        // Chiama API Gemini
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: msg})
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            removeTyping();
+            addMsg(data.response || getResponse(msg), 'bot');
+        })
+        .catch(function() {
             removeTyping();
             addMsg(getResponse(msg), 'bot');
-        }, 600);
+        });
     }
 
-    // Quick message
+    // Quick message con AI
     function quickMsg(m) {
         addMsg(m, 'user');
         showTyping();
-        setTimeout(function() {
+
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: m})
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            removeTyping();
+            addMsg(data.response || getResponse(m), 'bot');
+        })
+        .catch(function() {
             removeTyping();
             addMsg(getResponse(m), 'bot');
-        }, 500);
+        });
     }
 
     // Aggiungi messaggio
@@ -2634,6 +3136,55 @@ MAIN_PAGE = '''
         }
     }
 
+    // Filtro prodotti per brand
+    function filterProducts(brand) {
+        // Update active button
+        var btns = document.querySelectorAll('.filter-btn');
+        btns.forEach(function(btn) { btn.classList.remove('active'); });
+        event.target.classList.add('active');
+
+        // Get all brand sections
+        var sections = document.querySelectorAll('.brand-section');
+
+        sections.forEach(function(section) {
+            var title = section.querySelector('.brand-section-title');
+            if (!title) return;
+            var sectionBrand = title.textContent.toLowerCase();
+
+            if (brand === 'all') {
+                section.style.display = 'block';
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+            } else {
+                var matches = false;
+                if (brand === 'flessya' && sectionBrand.includes('flessya')) matches = true;
+                if (brand === 'dibi' && sectionBrand.includes('di.bi')) matches = true;
+                if (brand === 'arieni' && sectionBrand.includes('arieni')) matches = true;
+                if (brand === 'mondocasa' && sectionBrand.includes('mondocasa')) matches = true;
+                if (brand === 'eproditalia' && sectionBrand.includes('eproditalia')) matches = true;
+
+                if (matches) {
+                    section.style.display = 'block';
+                    setTimeout(function() {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                    }, 50);
+                } else {
+                    section.style.opacity = '0';
+                    section.style.transform = 'translateY(20px)';
+                    setTimeout(function() {
+                        section.style.display = 'none';
+                    }, 300);
+                }
+            }
+        });
+
+        // Scroll to products section
+        if (brand !== 'all') {
+            document.getElementById('prodotti').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
     // ===== INIT QUANDO DOM PRONTO =====
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -2694,6 +3245,100 @@ MAIN_PAGE = '''
         document.onkeydown = function(e) {
             if (e.key === 'Escape') closeModal();
         };
+
+        // ===== DARK MODE TOGGLE =====
+        var themeToggle = document.getElementById('themeToggle');
+        var themeIcon = document.getElementById('themeIcon');
+        var savedTheme = localStorage.getItem('theme') || 'light';
+
+        // Applica tema salvato
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            themeToggle.classList.add('active');
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                var currentTheme = document.documentElement.getAttribute('data-theme');
+                if (currentTheme === 'dark') {
+                    document.documentElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    themeToggle.classList.remove('active');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    themeToggle.classList.add('active');
+                }
+            });
+        }
+
+        // ===== SCROLL REVEAL ANIMATIONS =====
+        var revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+
+        function revealOnScroll() {
+            var windowHeight = window.innerHeight;
+            revealElements.forEach(function(el) {
+                var elementTop = el.getBoundingClientRect().top;
+                var revealPoint = 150;
+                if (elementTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        // Intersection Observer per performance migliori
+        if ('IntersectionObserver' in window) {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            revealElements.forEach(function(el) {
+                observer.observe(el);
+            });
+        } else {
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        }
+
+        // ===== SMOOTH SCROLL PER LINK ANCHOR =====
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                var targetId = this.getAttribute('href');
+                if (targetId !== '#') {
+                    var target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // ===== PARALLAX EFFECT SU HERO =====
+        var heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            window.addEventListener('scroll', function() {
+                var scrolled = window.pageYOffset;
+                if (scrolled < window.innerHeight) {
+                    heroSection.style.transform = 'translateY(' + (scrolled * 0.3) + 'px)';
+                    heroSection.style.opacity = 1 - (scrolled / (window.innerHeight * 1.2));
+                }
+            });
+        }
 
     });
 
@@ -3070,6 +3715,131 @@ THANKS_PAGE = '''
 @rate_limit(max_requests=60, window=60)
 def home():
     return render_template_string(MAIN_PAGE, csrf_token=g.csrf_token)
+
+@app.route('/api/chat', methods=['POST'])
+@rate_limit(max_requests=30, window=60)
+def api_chat():
+    """Endpoint chatbot AI con Gemini - RISPOSTA INTELLIGENTE"""
+    try:
+        data = request.get_json()
+        user_message = sanitize_input(data.get('message', ''), 500) if data else ''
+
+        if not user_message:
+            return jsonify({'success': False, 'response': 'Messaggio vuoto'})
+
+        # Se Gemini non e configurato, usa risposte locali migliorate
+        if not GEMINI_API_KEY:
+            response = get_smart_response(user_message)
+            return jsonify({'success': True, 'response': response})
+
+        # Prompt contestualizzato per Gemini
+        system_prompt = """Sei l'assistente AI di Spallanzani Rappresentanze, azienda che rappresenta questi marchi in Emilia Romagna:
+
+MARCHI RAPPRESENTATI:
+1. FLESSYA - Porte per interni Made in Italy (Linee: Nidio, Kikka, Vetra, Rasomuro, Plenia, S-nziale) - Prezzi: 300-1500 euro
+2. DI.BI. - Porte blindate certificate classe 3, 4, 5 (dal 1976) - Prezzi: 800-3500 euro
+3. ARIENI - Maniglie di design in ottone e acciaio (dal 1997) - Prezzi: 50-400 euro
+4. MONDOCASA - Serramenti in PVC ad alto isolamento termico/acustico (5-7 camere, triplo vetro)
+5. EPRODITALIA - Infissi in alluminio a taglio termico (65-85mm)
+
+ZONE OPERATIVE: Modena, Reggio Emilia, Parma, Ferrara
+
+CONTATTI:
+- Telefono: +39 335 692 8280 (Massimo Spallanzani)
+- Email ordini: spallamm@gmail.com
+- Email commerciale: commercialegolinellidaniela@gmail.com
+
+ISTRUZIONI:
+- Rispondi SEMPRE in italiano
+- Sii professionale ma cordiale
+- Risposte BREVI e CONCISE (max 2-3 frasi)
+- Se chiedono preventivi, invitali a contattare o usare il form
+- NON inventare prezzi specifici, dai range indicativi
+- Se non sai qualcosa, suggerisci di contattare l'azienda"""
+
+        headers = {'Content-Type': 'application/json'}
+        gemini_data = {
+            'contents': [
+                {'role': 'user', 'parts': [{'text': system_prompt}]},
+                {'role': 'model', 'parts': [{'text': 'Capito! Sono pronto ad assistere i clienti di Spallanzani Rappresentanze.'}]},
+                {'role': 'user', 'parts': [{'text': user_message}]}
+            ],
+            'generationConfig': {
+                'temperature': 0.7,
+                'maxOutputTokens': 300,
+                'topP': 0.9
+            }
+        }
+
+        response = requests.post(
+            f"{GEMINI_API_URL}?key={GEMINI_API_KEY}",
+            headers=headers,
+            json=gemini_data,
+            timeout=15
+        )
+
+        if response.status_code == 200:
+            result = response.json()
+            ai_response = result['candidates'][0]['content']['parts'][0]['text']
+            return jsonify({'success': True, 'response': ai_response})
+        else:
+            # Fallback a risposte locali
+            return jsonify({'success': True, 'response': get_smart_response(user_message)})
+
+    except Exception as e:
+        log_security_event("CHAT_ERROR", request.remote_addr, str(e))
+        return jsonify({'success': True, 'response': get_smart_response(user_message if 'user_message' in dir() else '')})
+
+def get_smart_response(message):
+    """Risposte smart locali migliorate (fallback)"""
+    q = message.lower()
+
+    # Saluti
+    if any(w in q for w in ['ciao', 'salve', 'buongiorno', 'buonasera', 'hey', 'saluti']):
+        return "Buongiorno! Sono l'assistente di Spallanzani Rappresentanze. Come posso aiutarti? Posso darti info su <strong>Flessya</strong>, <strong>Di.Bi.</strong>, <strong>Mondocasa</strong>, <strong>Eproditalia</strong> o <strong>Arieni</strong>."
+
+    # Flessya
+    if 'flessya' in q:
+        return "<strong>Flessya</strong> produce porte per interni Made in Italy. Linee disponibili: <em>Nidio, Kikka, Vetra, Rasomuro, Plenia, S-nziale</em>. Oltre 100 finiture. Range prezzi: €300-1500."
+
+    # Di.Bi
+    if any(w in q for w in ['dibi', 'di.bi', 'blindat', 'sicurezza']):
+        return "<strong>Di.Bi.</strong> produce porte blindate certificate dal 1976. Classi disponibili: 3, 4 e 5. Serrature multipunto. Range prezzi: €800-3500."
+
+    # Mondocasa
+    if any(w in q for w in ['mondocasa', 'pvc', 'serramento', 'finestra', 'finestre']):
+        return "<strong>Mondocasa</strong> offre serramenti in PVC con isolamento superiore. Profili 5-7 camere, triplo vetro, Uw fino a 0.6 W/m2K. Ideali per risparmio energetico."
+
+    # Eproditalia
+    if any(w in q for w in ['eproditalia', 'alluminio', 'infisso', 'infissi', 'taglio termico']):
+        return "<strong>Eproditalia</strong> produce infissi in alluminio a taglio termico. Profili 65-85mm, finiture RAL e effetto legno. Perfetti per design moderno."
+
+    # Arieni
+    if any(w in q for w in ['arieni', 'manigli', 'ottone', 'acciaio']):
+        return "<strong>Arieni</strong> crea maniglie di design dal 1997. Materiali: ottone e acciaio. Finiture: cromo, satinato, brunito, nero. Range prezzi: €50-400."
+
+    # Preventivo
+    if any(w in q for w in ['preventivo', 'prezzo', 'costo', 'quanto costa', 'listino']):
+        return "Per un <strong>preventivo personalizzato</strong> puoi:<br>• Chiamare: <a href='tel:+393356928280'>335 692 8280</a><br>• Email: spallamm@gmail.com<br>• Compilare il form contatti qui sotto"
+
+    # Zone
+    if any(w in q for w in ['zona', 'zone', 'dove', 'territorio', 'provincia', 'citta']):
+        return "Operiamo in <strong>Emilia Romagna</strong>: Modena, Reggio Emilia, Parma e Ferrara con visite regolari ai rivenditori."
+
+    # Contatti
+    if any(w in q for w in ['contatt', 'telefono', 'email', 'chiamare']):
+        return "<strong>Contatti:</strong><br>• Tel: <a href='tel:+393356928280'>+39 335 692 8280</a><br>• Email: spallamm@gmail.com<br>• Commerciale: commercialegolinellidaniela@gmail.com"
+
+    # Marchi
+    if any(w in q for w in ['marchi', 'brand', 'aziende', 'rappresentate']):
+        return "Rappresentiamo <strong>5 marchi</strong>: Flessya (porte interni), Di.Bi. (blindate), Mondocasa (PVC), Eproditalia (alluminio), Arieni (maniglie). Chiedimi di uno specifico!"
+
+    # Catalogo
+    if any(w in q for w in ['catalogo', 'prodott', 'gamma']):
+        return "Il nostro <strong>catalogo</strong> include: porte interni, porte blindate, serramenti PVC, infissi alluminio e maniglie design. Scorri la pagina per vedere tutti i prodotti!"
+
+    # Default
+    return "Posso aiutarti con info su: <strong>Flessya</strong>, <strong>Di.Bi.</strong>, <strong>Mondocasa</strong>, <strong>Eproditalia</strong>, <strong>Arieni</strong>, preventivi o zone operative. Cosa ti interessa?"
 
 @app.route('/registrati', methods=['GET', 'POST'])
 @rate_limit(max_requests=10, window=60)
