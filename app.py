@@ -2997,24 +2997,32 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Spallanzani</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f0f2f5;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             min-height: 100vh;
         }
         .navbar {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            padding: 15px 30px;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        .navbar h1 { color: #fff; font-size: 22px; }
-        .navbar h1 span { color: #c9a227; }
+        .navbar h1 {
+            color: #fff;
+            font-size: 26px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+        .navbar h1 span { color: #c9a227; font-style: italic; }
         .navbar-right { display: flex; align-items: center; gap: 20px; }
         .user-badge {
             background: rgba(201,162,39,0.2);
@@ -3041,22 +3049,77 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
         }
         .stat-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .stat-card .icon { font-size: 40px; margin-bottom: 10px; }
-        .stat-card .number { font-size: 36px; font-weight: 700; color: #1a1a2e; }
-        .stat-card .label { color: #666; margin-top: 5px; }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #c9a227, #d4af37);
+        }
+        .stat-card .icon { font-size: 45px; margin-bottom: 15px; }
+        .stat-card .number {
+            font-size: 42px;
+            font-weight: 300;
+            color: #1a1a2e;
+            font-family: 'Playfair Display', serif;
+        }
+        .stat-card .label {
+            color: #888;
+            margin-top: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
         .card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
-        .card h2 { color: #1a1a2e; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .card h2 {
+            color: #1a1a2e;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 24px;
+        }
+        .card h2 em { color: #c9a227; font-style: italic; }
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(26,26,46,0.9), rgba(22,33,62,0.9)),
+                        url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200') center/cover;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-banner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        .welcome-banner h2 span { color: #c9a227; font-style: italic; }
+        .welcome-banner p { opacity: 0.8; font-size: 14px; }
         .btn {
             padding: 10px 20px;
             border: none;
@@ -3195,6 +3258,11 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
     </nav>
 
     <div class="container">
+        <div class="welcome-banner">
+            <h2>Benvenuto, <span>{{ username }}</span></h2>
+            <p>Gestisci preventivi, richieste clienti e genera quotazioni con l'intelligenza artificiale</p>
+        </div>
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="icon">📋</div>
@@ -3219,12 +3287,13 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
         </div>
 
         <div class="card">
-            <h2>🤖 Nuovo Preventivo con AI</h2>
-            <button class="btn btn-ai" onclick="openModal('nuovo')">+ Crea Preventivo con Gemini AI</button>
+            <h2>🤖 Nuovo Preventivo con <em>AI</em></h2>
+            <p style="color:#666;margin-bottom:20px;font-size:14px">Genera preventivi automatici con Gemini AI in pochi secondi</p>
+            <button class="btn btn-ai" onclick="openModal('nuovo')" style="font-size:16px;padding:15px 30px">✨ Crea Preventivo con Gemini AI</button>
         </div>
 
         <div class="card">
-            <h2>📊 Elenco Preventivi</h2>
+            <h2>📊 Elenco <em>Preventivi</em></h2>
             <table>
                 <thead>
                     <tr>
@@ -3262,7 +3331,7 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
         </div>
 
         <div class="card">
-            <h2>📬 Richieste dal Sito</h2>
+            <h2>📬 Richieste dal <em>Sito</em></h2>
             <table>
                 <thead>
                     <tr>
@@ -3428,15 +3497,21 @@ ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
                 const response = await fetch('/admin/api/invia-conferma/' + currentPreventivoId, { method: 'POST' });
                 const data = await response.json();
                 if (data.success) {
-                    alert('✅ Email di conferma inviata!');
+                    alert('✅ Email di conferma inviata a ' + document.getElementById('cliente_email').value);
                     closeModal('nuovo');
                     location.reload();
                 } else {
                     alert('Errore: ' + data.error);
                 }
             } catch (err) {
-                alert('Errore di connessione');
+                alert('Errore di connessione: ' + err.message);
             }
+        }
+
+        function rigeneraAI() {
+            // Reset e rigenera
+            document.getElementById('ai-result').style.display = 'none';
+            document.getElementById('form-preventivo').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
         }
 
         async function viewPreventivo(id) {
