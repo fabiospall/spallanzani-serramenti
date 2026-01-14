@@ -55,8 +55,8 @@ def detect_nmap_scan(ip, path, user_agent):
     suspicious_paths = [
         '/admin', '/wp-admin', '/phpmyadmin', '/.env', '/.git',
         '/config', '/backup', '/shell', '/cmd', '/eval',
-        '/.htaccess', '/web.config', '/robots.txt', '/sitemap.xml',
-        '/api/', '/.well-known', '/debug', '/test', '/dev'
+        '/.htaccess', '/web.config', '/.svn', '/.hg',
+        '/cgi-bin', '/manager', '/console', '/actuator'
     ]
 
     # Check user agent
@@ -66,10 +66,10 @@ def detect_nmap_scan(ip, path, user_agent):
             log_security_event("SCANNER_DETECTED", ip, f"User-Agent: {user_agent}")
             return True
 
-    # Check path probing
-    if path.lower() in suspicious_paths or any(p in path.lower() for p in suspicious_paths):
+    # Check path probing - solo path esattamente sospetti
+    if path.lower() in suspicious_paths:
         suspicious_ips[ip] += 1
-        if suspicious_ips[ip] >= 3:
+        if suspicious_ips[ip] >= 5:
             log_security_event("PATH_PROBING", ip, f"Path: {path} (count: {suspicious_ips[ip]})")
             return True
 
@@ -94,12 +94,15 @@ def block_ip(ip, duration=3600):
     blocked_ips[ip] = time.time() + duration
     log_security_event("IP_BLOCKED", ip, f"Duration: {duration}s")
 
-def rate_limit(max_requests=30, window=60):
+def rate_limit(max_requests=60, window=60):
     """Rate limiting decorator"""
     def decorator(f):
         @wraps(f)
         def wrapped(*args, **kwargs):
-            ip = request.remote_addr
+            # Get real IP behind proxy
+            ip = request.headers.get('CF-Connecting-IP') or \
+                 request.headers.get('X-Forwarded-For', '').split(',')[0].strip() or \
+                 request.remote_addr
             now = time.time()
 
             # Pulisci vecchie richieste
@@ -166,10 +169,18 @@ def check_honeypot(form_data):
 # MIDDLEWARE DI SICUREZZA
 # ============================================
 
+def get_real_ip():
+    """Ottieni IP reale anche dietro proxy/Cloudflare"""
+    if request.headers.get('CF-Connecting-IP'):
+        return request.headers.get('CF-Connecting-IP')
+    if request.headers.get('X-Forwarded-For'):
+        return request.headers.get('X-Forwarded-For').split(',')[0].strip()
+    return request.remote_addr
+
 @app.before_request
 def security_middleware():
     """Middleware di sicurezza eseguito prima di ogni richiesta"""
-    ip = request.remote_addr
+    ip = get_real_ip()
     path = request.path
     user_agent = request.headers.get('User-Agent', '')
 
@@ -215,9 +226,6 @@ def too_many_requests(e):
 
 @app.errorhandler(404)
 def not_found(e):
-    ip = request.remote_addr
-    suspicious_ips[ip] += 1
-    log_security_event("404_NOT_FOUND", ip, request.path)
     return '''<!DOCTYPE html><html><head><title>Pagina Non Trovata</title>
     <style>body{font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;background:#f8f9fa;color:#1a1a1a;}
     .box{text-align:center;padding:50px;}h1{margin:0 0 20px;font-size:100px;opacity:0.2;}a{color:#1a1a1a;}</style></head>
