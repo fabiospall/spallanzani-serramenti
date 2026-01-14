@@ -1920,6 +1920,102 @@ MAIN_PAGE = '''
                             <a href="#contatti" class="product-btn">Preventivo</a>
                         </div>
                     </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="f5" onclick="openProductModal('f5')" onmousemove="rotate3D(event, 'f5')" onmouseleave="reset3D('f5')">
+                            <span class="product-tag">Flessya</span>
+                            <div class="product-3d-wrapper gpu" id="f5">
+                                <img src="https://www.flessya.com/site/wp-content/uploads/2022/06/Flessya-Vetra05_HD300-scaled.jpg" alt="Vetra 05">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Linea Vetra</div>
+                            <h4 class="product-name">Vetra 05</h4>
+                            <p class="product-desc">Vetrata full-height per massima luminosita e design contemporaneo.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="f6" onclick="openProductModal('f6')" onmousemove="rotate3D(event, 'f6')" onmouseleave="reset3D('f6')">
+                            <span class="product-tag">Flessya</span>
+                            <div class="product-3d-wrapper gpu" id="f6">
+                                <img src="https://www.flessya.com/site/wp-content/uploads/2022/07/S-nziale_Mono_Inglesina.jpg" alt="S-nziale Mono">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Linea S-nziale</div>
+                            <h4 class="product-name">S-nziale Mono</h4>
+                            <p class="product-desc">Porta tutto vetro con telaio alluminio, stile inglese raffinato.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="f7" onclick="openProductModal('f7')" onmousemove="rotate3D(event, 'f7')" onmouseleave="reset3D('f7')">
+                            <span class="product-tag">Flessya</span>
+                            <div class="product-3d-wrapper gpu" id="f7">
+                                <img src="https://www.flessya.com/site/wp-content/uploads/2022/07/S-nziale_Duo_SD00-scaled.jpg" alt="S-nziale Duo">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Linea S-nziale</div>
+                            <h4 class="product-name">S-nziale Duo</h4>
+                            <p class="product-desc">Doppia anta vetrata per aperture ampie e scenografiche.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="f8" onclick="openProductModal('f8')" onmousemove="rotate3D(event, 'f8')" onmouseleave="reset3D('f8')">
+                            <span class="product-tag">Flessya</span>
+                            <div class="product-3d-wrapper gpu" id="f8">
+                                <img src="https://www.flessya.com/site/wp-content/uploads/2022/06/Flessya-NL15_HD300_OK-scaled.jpg" alt="Nidio NL15">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Linea Nidio</div>
+                            <h4 class="product-name">Nidio NL15</h4>
+                            <p class="product-desc">Tamburata con pantografature geometriche eleganti.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="f9" onclick="openProductModal('f9')" onmousemove="rotate3D(event, 'f9')" onmouseleave="reset3D('f9')">
+                            <span class="product-tag">Flessya</span>
+                            <div class="product-3d-wrapper gpu" id="f9">
+                                <img src="https://www.flessya.com/site/wp-content/uploads/2022/07/Flessya-P31_P50_HD300-scaled.jpg" alt="Plenia P31">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Linea Plenia</div>
+                            <h4 class="product-name">Plenia P31</h4>
+                            <p class="product-desc">Legno massello impiallacciato con venature naturali a vista.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="f10" onclick="openProductModal('f10')" onmousemove="rotate3D(event, 'f10')" onmouseleave="reset3D('f10')">
+                            <span class="product-tag">Flessya</span>
+                            <div class="product-3d-wrapper gpu" id="f10">
+                                <img src="https://www.flessya.com/site/wp-content/uploads/2022/07/Rasomuro_05_N00_HD300-scaled.jpg" alt="Rasomuro 05">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Linea Rasomuro</div>
+                            <h4 class="product-name">Rasomuro 05</h4>
+                            <p class="product-desc">Filo muro con inserti decorativi, perfetta integrazione architettonica.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="brand-section">
@@ -1989,6 +2085,102 @@ MAIN_PAGE = '''
                             <a href="#contatti" class="product-btn">Preventivo</a>
                         </div>
                     </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="d5" onclick="openProductModal('d5')" onmousemove="rotate3D(event, 'd5')" onmouseleave="reset3D('d5')">
+                            <span class="product-tag">Di.Bi.</span>
+                            <div class="product-3d-wrapper gpu" id="d5">
+                                <img src="https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_poker2_est_sd_white_sx_amb_54.jpg" alt="Poker2 White">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Classe 3</div>
+                            <h4 class="product-name">Poker2 White</h4>
+                            <p class="product-desc">Design contemporaneo bianco con pannello decorativo.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="d6" onclick="openProductModal('d6')" onmousemove="rotate3D(event, 'd6')" onmouseleave="reset3D('d6')">
+                            <span class="product-tag">Di.Bi.</span>
+                            <div class="product-3d-wrapper gpu" id="d6">
+                                <img src="https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_argoplus_est_tx_golden_oak_sx_amb_10.jpg" alt="Argo Plus Golden">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Classe 3</div>
+                            <h4 class="product-name">Argo Plus Golden</h4>
+                            <p class="product-desc">Finitura Golden Oak calda ed elegante per ingressi prestigiosi.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="d7" onclick="openProductModal('d7')" onmousemove="rotate3D(event, 'd7')" onmouseleave="reset3D('d7')">
+                            <span class="product-tag">Di.Bi.</span>
+                            <div class="product-3d-wrapper gpu" id="d7">
+                                <img src="https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_884_est_tanganika_05_sx_amb_8.jpg" alt="884 Tanganika">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Classe 4</div>
+                            <h4 class="product-name">884 Tanganika</h4>
+                            <p class="product-desc">Alta sicurezza classe 4 con finitura legno tanganika pregiato.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="d8" onclick="openProductModal('d8')" onmousemove="rotate3D(event, 'd8')" onmouseleave="reset3D('d8')">
+                            <span class="product-tag">Di.Bi.</span>
+                            <div class="product-3d-wrapper gpu" id="d8">
+                                <img src="https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_883_2a_est_pz_golden_oak_sx_amb_12.jpg" alt="883 2A Golden">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Classe 4</div>
+                            <h4 class="product-name">883 2A Golden</h4>
+                            <p class="product-desc">Doppia anta blindata per ingressi ampi e signorili.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="d9" onclick="openProductModal('d9')" onmousemove="rotate3D(event, 'd9')" onmouseleave="reset3D('d9')">
+                            <span class="product-tag">Di.Bi.</span>
+                            <div class="product-3d-wrapper gpu" id="d9">
+                                <img src="https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_argo_est_mogano_sx_amb_27.jpg" alt="Argo Mogano">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Classe 3</div>
+                            <h4 class="product-name">Argo Mogano</h4>
+                            <p class="product-desc">Classica eleganza mogano per abitazioni di prestigio.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="d10" onclick="openProductModal('d10')" onmousemove="rotate3D(event, 'd10')" onmouseleave="reset3D('d10')">
+                            <span class="product-tag">Di.Bi.</span>
+                            <div class="product-3d-wrapper gpu" id="d10">
+                                <img src="https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_poker2_est_all_pz_bianco_9010_sx_amb_28.jpg" alt="Poker2 Bianco">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Classe 3</div>
+                            <h4 class="product-name">Poker2 RAL 9010</h4>
+                            <p class="product-desc">Bianco RAL 9010 opaco per ambienti minimal e luminosi.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="brand-section">
@@ -2055,6 +2247,38 @@ MAIN_PAGE = '''
                             <div class="product-cat">Contemporary</div>
                             <h4 class="product-name">Area 51 Nera</h4>
                             <p class="product-desc">Total black per interni di tendenza contemporanea.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="a5" onclick="openProductModal('a5')" onmousemove="rotate3D(event, 'a5')" onmouseleave="reset3D('a5')">
+                            <span class="product-tag">Arieni</span>
+                            <div class="product-3d-wrapper gpu" id="a5">
+                                <img src="https://www.arienisrl.com/wp-content/uploads/2020/09/Piego-1200.png" alt="Piego CRS">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Contemporary</div>
+                            <h4 class="product-name">Piego CRS</h4>
+                            <p class="product-desc">Linee arrotondate morbide, cromato satinato elegante.</p>
+                            <a href="#contatti" class="product-btn">Preventivo</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-3d-box" data-product="a6" onclick="openProductModal('a6')" onmousemove="rotate3D(event, 'a6')" onmouseleave="reset3D('a6')">
+                            <span class="product-tag">Arieni</span>
+                            <div class="product-3d-wrapper gpu" id="a6">
+                                <img src="https://www.arienisrl.com/wp-content/uploads/Ares-ocr.png" alt="Ares OCR">
+                                <div class="product-depth"></div>
+                            </div>
+                            <div class="dbl-hint">&#8635; Doppio click</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">Linea Laser</div>
+                            <h4 class="product-name">Ares OCR</h4>
+                            <p class="product-desc">Design geometrico minimalista, ottone cromato raffinato.</p>
                             <a href="#contatti" class="product-btn">Preventivo</a>
                         </div>
                     </div>
@@ -2240,7 +2464,24 @@ MAIN_PAGE = '''
         a1: { brand: 'Arieni', name: 'Laser OBM', img: 'https://www.arienisrl.com/wp-content/uploads/Laser-obm.png', ai: "La Laser OBM rappresenta il design minimalista nella maniglieria. Ottone brunito opaco, presa ergonomica.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Brunito Opaco'], ['Stile', 'Minimalista'], ['Garanzia', '2 anni']] },
         a2: { brand: 'Arieni', name: 'Vera CRS', img: 'https://www.arienisrl.com/wp-content/uploads/2020/09/Vera-1200x600-1-1-1.png', ai: "La Vera CRS sfoggia linee squadrate moderne con finitura cromata satinata. Design contemporaneo e funzionale.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Cromo Satinato'], ['Design', 'Squadrato'], ['Garanzia', '2 anni']] },
         a3: { brand: 'Arieni', name: 'Dea PVD', img: 'https://www.arienisrl.com/wp-content/uploads/2020/06/Dea-1200x600-1.png', ai: "La Dea PVD in alluminio massiccio con rivestimento PVD antigraffio. Durabilita eccezionale.", specs: [['Materiale', 'Alluminio'], ['Trattamento', 'PVD Antigraffio'], ['Durabilita', 'Eccezionale'], ['Garanzia', '5 anni']] },
-        a4: { brand: 'Arieni', name: 'Area 51 Nera', img: 'https://www.arienisrl.com/wp-content/uploads/2020/09/Area51-1200x600-nera.png', ai: "L'Area 51 Nera incarna la tendenza total black. Nero opaco per design audace e di tendenza.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Nero Opaco'], ['Stile', 'Total Black'], ['Garanzia', '2 anni']] }
+        a4: { brand: 'Arieni', name: 'Area 51 Nera', img: 'https://www.arienisrl.com/wp-content/uploads/2020/09/Area51-1200x600-nera.png', ai: "L'Area 51 Nera incarna la tendenza total black. Nero opaco per design audace e di tendenza.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Nero Opaco'], ['Stile', 'Total Black'], ['Garanzia', '2 anni']] },
+        // Nuovi prodotti Flessya
+        f5: { brand: 'Flessya', name: 'Vetra 05', img: 'https://www.flessya.com/site/wp-content/uploads/2022/06/Flessya-Vetra05_HD300-scaled.jpg', ai: "La Vetra 05 offre vetrata full-height per massima luminosita. Design contemporaneo che amplifica gli spazi.", specs: [['Tipo', 'Vetrata Full-Height'], ['Vetro', 'Temperato'], ['Stile', 'Contemporaneo'], ['Garanzia', '10 anni']] },
+        f6: { brand: 'Flessya', name: 'S-nziale Mono', img: 'https://www.flessya.com/site/wp-content/uploads/2022/07/S-nziale_Mono_Inglesina.jpg', ai: "La S-nziale Mono e una porta tutto vetro con telaio in alluminio. Stile inglese raffinato per ambienti eleganti.", specs: [['Tipo', 'Tutto Vetro'], ['Telaio', 'Alluminio'], ['Stile', 'Inglese'], ['Garanzia', '10 anni']] },
+        f7: { brand: 'Flessya', name: 'S-nziale Duo', img: 'https://www.flessya.com/site/wp-content/uploads/2022/07/S-nziale_Duo_SD00-scaled.jpg', ai: "La S-nziale Duo e una doppia anta vetrata per aperture ampie e scenografiche. Ideale per soggiorni e sale.", specs: [['Tipo', 'Doppia Anta'], ['Vetro', 'Acidato'], ['Apertura', 'Ampia'], ['Garanzia', '10 anni']] },
+        f8: { brand: 'Flessya', name: 'Nidio NL15', img: 'https://www.flessya.com/site/wp-content/uploads/2022/06/Flessya-NL15_HD300_OK-scaled.jpg', ai: "La Nidio NL15 presenta pantografature geometriche eleganti. Design distintivo su base tamburata leggera.", specs: [['Tipo', 'Tamburata'], ['Decorazione', 'Pantografata'], ['Design', 'Geometrico'], ['Garanzia', '5 anni']] },
+        f9: { brand: 'Flessya', name: 'Plenia P31', img: 'https://www.flessya.com/site/wp-content/uploads/2022/07/Flessya-P31_P50_HD300-scaled.jpg', ai: "La Plenia P31 in legno massello impiallacciato esalta le venature naturali. Calore e autenticita per ogni ambiente.", specs: [['Tipo', 'Massello Impiallacciato'], ['Legno', 'Naturale'], ['Venature', 'A Vista'], ['Garanzia', '10 anni']] },
+        f10: { brand: 'Flessya', name: 'Rasomuro 05', img: 'https://www.flessya.com/site/wp-content/uploads/2022/07/Rasomuro_05_N00_HD300-scaled.jpg', ai: "La Rasomuro 05 offre perfetta integrazione architettonica con inserti decorativi. Filo muro di ultima generazione.", specs: [['Tipo', 'Filo Muro'], ['Telaio', 'Invisibile'], ['Decorazione', 'Inserti'], ['Garanzia', '10 anni']] },
+        // Nuovi prodotti Di.Bi.
+        d5: { brand: 'Di.Bi.', name: 'Poker2 White', img: 'https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_poker2_est_sd_white_sx_amb_54.jpg', ai: "La Poker2 White presenta design contemporaneo bianco con pannello decorativo. Sicurezza Classe 3.", specs: [['Classe', '3 (EN 1627)'], ['Finitura', 'Bianco'], ['Pannello', 'Decorativo'], ['Garanzia', '5 anni']] },
+        d6: { brand: 'Di.Bi.', name: 'Argo Plus Golden', img: 'https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_argoplus_est_tx_golden_oak_sx_amb_10.jpg', ai: "L'Argo Plus Golden Oak offre finitura calda ed elegante. Perfetta per ingressi prestigiosi.", specs: [['Classe', '3 (EN 1627)'], ['Finitura', 'Golden Oak'], ['Stile', 'Elegante'], ['Garanzia', '5 anni']] },
+        d7: { brand: 'Di.Bi.', name: '884 Tanganika', img: 'https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_884_est_tanganika_05_sx_amb_8.jpg', ai: "La 884 Tanganika garantisce alta sicurezza Classe 4 con finitura legno tanganika pregiato.", specs: [['Classe', '4 (EN 1627)'], ['Finitura', 'Tanganika'], ['Serratura', '5 punti'], ['Garanzia', '10 anni']] },
+        d8: { brand: 'Di.Bi.', name: '883 2A Golden', img: 'https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_883_2a_est_pz_golden_oak_sx_amb_12.jpg', ai: "La 883 2A Golden e una doppia anta blindata per ingressi ampi e signorili. Massima sicurezza.", specs: [['Classe', '4 (EN 1627)'], ['Tipo', 'Doppia Anta'], ['Finitura', 'Golden Oak'], ['Garanzia', '10 anni']] },
+        d9: { brand: 'Di.Bi.', name: 'Argo Mogano', img: 'https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_argo_est_mogano_sx_amb_27.jpg', ai: "L'Argo Mogano porta classica eleganza nelle abitazioni di prestigio. Finitura mogano intramontabile.", specs: [['Classe', '3 (EN 1627)'], ['Finitura', 'Mogano'], ['Stile', 'Classico'], ['Garanzia', '5 anni']] },
+        d10: { brand: 'Di.Bi.', name: 'Poker2 RAL 9010', img: 'https://shop.dibigroup.com/media/catalog/product/cache/bf8198ce51d8b2fc6b76a84de965e03c/p/o/porta_blindata_poker2_est_all_pz_bianco_9010_sx_amb_28.jpg', ai: "La Poker2 RAL 9010 in bianco opaco perfetta per ambienti minimal e luminosi. Design pulito.", specs: [['Classe', '3 (EN 1627)'], ['Finitura', 'RAL 9010'], ['Stile', 'Minimal'], ['Garanzia', '5 anni']] },
+        // Nuove maniglie Arieni
+        a5: { brand: 'Arieni', name: 'Piego CRS', img: 'https://www.arienisrl.com/wp-content/uploads/2020/09/Piego-1200.png', ai: "La Piego CRS presenta linee arrotondate morbide con finitura cromata satinata. Comfort ed eleganza.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Cromo Satinato'], ['Design', 'Arrotondato'], ['Garanzia', '2 anni']] },
+        a6: { brand: 'Arieni', name: 'Ares OCR', img: 'https://www.arienisrl.com/wp-content/uploads/Ares-ocr.png', ai: "L'Ares OCR sfoggia design geometrico minimalista con ottone cromato raffinato. Linea Laser premium.", specs: [['Materiale', 'Ottone'], ['Finitura', 'Cromo'], ['Linea', 'Laser'], ['Garanzia', '2 anni']] }
     };
 
     // ===== FUNZIONI GLOBALI (chiamate da onclick) =====
