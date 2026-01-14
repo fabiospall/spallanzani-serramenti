@@ -8,14 +8,44 @@ import re
 import time
 import hashlib
 import os
+import json
+import smtplib
+import requests
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timedelta
 from collections import defaultdict
+from urllib.parse import urlencode
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)  # Chiave segreta sicura generata dinamicamente
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
+
+# ============================================
+# CONFIGURAZIONE ADMIN E AI
+# ============================================
+
+# Admin users (password hashate con SHA256)
+ADMIN_USERS = {
+    'fabio': hashlib.sha256('fabio2024!'.encode()).hexdigest(),
+    'papa': hashlib.sha256('papa2024!'.encode()).hexdigest(),
+    'mamma': hashlib.sha256('mamma2024!'.encode()).hexdigest()
+}
+
+# Gemini AI Configuration (API gratuita)
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
+GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+
+# Email Configuration
+EMAIL_SENDER = 'spallanzanirappresentanze@gmail.com'
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD', '')  # App password Gmail
+SMTP_SERVER = 'smtp.gmail.com'
+SMTP_PORT = 587
+
+# Pending confirmations storage
+pending_confirmations = {}
 
 # ============================================
 # SISTEMA DI SICUREZZA AVANZATO
@@ -166,6 +196,143 @@ def check_honeypot(form_data):
     return True
 
 # ============================================
+# SISTEMA ADMIN
+# ============================================
+
+def admin_required(f):
+    """Decorator per richiedere autenticazione admin"""
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if 'admin_user' not in session:
+            return redirect('/admin/login')
+        return f(*args, **kwargs)
+    return decorated
+
+def verify_admin(username, password):
+    """Verifica credenziali admin"""
+    if username in ADMIN_USERS:
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        if ADMIN_USERS[username] == password_hash:
+            return True
+    return False
+
+# ============================================
+# GEMINI AI FUNCTIONS
+# ============================================
+
+def generate_preventivo_ai(cliente_nome, prodotti, richiesta):
+    """Genera preventivo usando Gemini AI"""
+    if not GEMINI_API_KEY:
+        return None, "API Key Gemini non configurata"
+
+    prompt = f"""Sei un esperto preventivista per Spallanzani Rappresentanze, azienda che vende:
+- Flessya: Porte per interni (da €300 a €1500 per porta)
+- Di.Bi.: Porte blindate (da €800 a €3500 per porta)
+- Arieni: Maniglie di design (da €50 a €400 per set)
+
+Cliente: {cliente_nome}
+Prodotti richiesti: {prodotti}
+Dettagli richiesta: {richiesta}
+
+Genera un preventivo professionale in italiano con:
+1. Elenco prodotti con prezzi stimati
+2. Eventuali opzioni/varianti
+3. Totale stimato
+4. Note sulla posa in opera
+5. Tempi di consegna stimati
+
+Formatta in modo chiaro e professionale."""
+
+    try:
+        headers = {'Content-Type': 'application/json'}
+        data = {
+            'contents': [{'parts': [{'text': prompt}]}],
+            'generationConfig': {'temperature': 0.7, 'maxOutputTokens': 2000}
+        }
+
+        response = requests.post(
+            f"{GEMINI_API_URL}?key={GEMINI_API_KEY}",
+            headers=headers,
+            json=data,
+            timeout=30
+        )
+
+        if response.status_code == 200:
+            result = response.json()
+            text = result['candidates'][0]['content']['parts'][0]['text']
+            return text, None
+        else:
+            return None, f"Errore API: {response.status_code}"
+    except Exception as e:
+        return None, str(e)
+
+# ============================================
+# EMAIL FUNCTIONS
+# ============================================
+
+def send_email(to_email, subject, html_body):
+    """Invia email tramite Gmail SMTP"""
+    if not EMAIL_PASSWORD:
+        return False, "Password email non configurata"
+
+    try:
+        msg = MIMEMultipart('alternative')
+        msg['From'] = EMAIL_SENDER
+        msg['To'] = to_email
+        msg['Subject'] = subject
+        msg.attach(MIMEText(html_body, 'html'))
+
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(EMAIL_SENDER, EMAIL_PASSWORD)
+            server.sendmail(EMAIL_SENDER, to_email, msg.as_string())
+        return True, None
+    except Exception as e:
+        return False, str(e)
+
+def send_confirmation_request(preventivo_id, admin_email):
+    """Invia richiesta di conferma all'admin"""
+    token = secrets.token_urlsafe(32)
+    pending_confirmations[token] = {
+        'preventivo_id': preventivo_id,
+        'created': datetime.now(),
+        'expires': datetime.now() + timedelta(hours=24)
+    }
+
+    # Aggiorna token nel DB
+    conn = get_db()
+    c = conn.cursor()
+    c.execute('UPDATE preventivi SET token_conferma = ? WHERE id = ?', (token, preventivo_id))
+    c.execute('SELECT * FROM preventivi WHERE id = ?', (preventivo_id,))
+    prev = c.fetchone()
+    conn.commit()
+    conn.close()
+
+    base_url = os.environ.get('RENDER_EXTERNAL_URL', 'https://spallanzani-serramenti.onrender.com')
+    confirm_url = f"{base_url}/admin/conferma/{token}"
+    reject_url = f"{base_url}/admin/rifiuta/{token}"
+
+    html = f"""
+    <html><body style="font-family: Arial, sans-serif; padding: 20px;">
+    <h2>🔔 Nuovo Preventivo da Approvare</h2>
+    <p><strong>Cliente:</strong> {prev['cliente_nome']}</p>
+    <p><strong>Email:</strong> {prev['cliente_email']}</p>
+    <p><strong>Prodotti:</strong> {prev['prodotti']}</p>
+    <hr>
+    <h3>Preventivo Generato dall'AI:</h3>
+    <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px;">{prev['preventivo_ai']}</pre>
+    <hr>
+    <p>
+        <a href="{confirm_url}" style="background: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin-right: 10px;">✅ APPROVA E INVIA</a>
+        <a href="{reject_url}" style="background: #dc3545; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px;">❌ RIFIUTA</a>
+    </p>
+    <p style="color: #666; font-size: 12px;">Link valido per 24 ore</p>
+    </body></html>
+    """
+
+    return send_email(EMAIL_SENDER, f"[CONFERMA] Preventivo #{preventivo_id} - {prev['cliente_nome']}", html)
+
+# ============================================
 # MIDDLEWARE DI SICUREZZA
 # ============================================
 
@@ -254,6 +421,34 @@ def init_db():
         nome TEXT, cognome TEXT, email TEXT UNIQUE, telefono TEXT, azienda TEXT,
         ip TEXT, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )''')
+    # Tabella preventivi
+    c.execute('''CREATE TABLE IF NOT EXISTS preventivi (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        cliente_nome TEXT,
+        cliente_email TEXT,
+        cliente_telefono TEXT,
+        prodotti TEXT,
+        richiesta TEXT,
+        preventivo_ai TEXT,
+        preventivo_finale TEXT,
+        stato TEXT DEFAULT 'nuovo',
+        token_conferma TEXT,
+        creato_da TEXT,
+        data_creazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        data_invio TIMESTAMP,
+        note TEXT
+    )''')
+
+    # Tabella admin sessions
+    c.execute('''CREATE TABLE IF NOT EXISTS admin_sessions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        session_token TEXT UNIQUE,
+        ip TEXT,
+        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        expires TIMESTAMP
+    )''')
+
     c.execute('''CREATE TABLE IF NOT EXISTS security_events (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         event_type TEXT, ip TEXT, details TEXT, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -2622,6 +2817,753 @@ def contatti():
 
     # Usa valori sanitizzati (SICURO)
     return render_template_string(THANKS_PAGE, nome=nome)
+
+# ============================================
+# ADMIN PAGES TEMPLATES
+# ============================================
+
+ADMIN_LOGIN_PAGE = '''<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Spallanzani</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        .logo { text-align: center; margin-bottom: 30px; }
+        .logo h1 { font-size: 28px; color: #1a1a2e; }
+        .logo span { color: #c9a227; }
+        .logo p { color: #666; font-size: 14px; margin-top: 5px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; }
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus { border-color: #c9a227; outline: none; }
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #c9a227, #d4af37);
+            border: none;
+            border-radius: 10px;
+            color: #1a1a2e;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .login-btn:hover { transform: scale(1.02); }
+        .error { background: #ffe6e6; color: #cc0000; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
+        .back-link { text-align: center; margin-top: 20px; }
+        .back-link a { color: #666; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>SPALLANZANI<span>®</span></h1>
+            <p>Area Riservata Admin</p>
+        </div>
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="POST">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required placeholder="Inserisci username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="Inserisci password">
+            </div>
+            <button type="submit" class="login-btn">🔐 ACCEDI</button>
+        </form>
+        <div class="back-link"><a href="/">← Torna al sito</a></div>
+    </div>
+</body>
+</html>'''
+
+ADMIN_DASHBOARD_PAGE = '''<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Spallanzani</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar h1 { color: #fff; font-size: 22px; }
+        .navbar h1 span { color: #c9a227; }
+        .navbar-right { display: flex; align-items: center; gap: 20px; }
+        .user-badge {
+            background: rgba(201,162,39,0.2);
+            color: #c9a227;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .stat-card .icon { font-size: 40px; margin-bottom: 10px; }
+        .stat-card .number { font-size: 36px; font-weight: 700; color: #1a1a2e; }
+        .stat-card .label { color: #666; margin-top: 5px; }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .card h2 { color: #1a1a2e; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary { background: #c9a227; color: #1a1a2e; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-ai { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; color: #1a1a2e; font-weight: 600; }
+        tr:hover { background: #f8f9fa; }
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-nuovo { background: #e3f2fd; color: #1976d2; }
+        .status-ai { background: #f3e5f5; color: #7b1fa2; }
+        .status-attesa { background: #fff3e0; color: #f57c00; }
+        .status-approvato { background: #e8f5e9; color: #388e3c; }
+        .status-inviato { background: #e0f2f1; color: #00897b; }
+        .status-rifiutato { background: #ffebee; color: #c62828; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-close { background: none; border: none; font-size: 30px; cursor: pointer; color: #666; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .ai-box {
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .ai-box h4 { color: #667eea; margin-bottom: 10px; }
+        .ai-response { background: white; padding: 15px; border-radius: 8px; white-space: pre-wrap; font-family: monospace; font-size: 13px; }
+        .loading { display: none; text-align: center; padding: 20px; }
+        .loading.active { display: block; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #667eea; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .navbar { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>SPALLANZANI<span>®</span> Dashboard</h1>
+        <div class="navbar-right">
+            <div class="user-badge">👤 {{ username }}</div>
+            <a href="/admin/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">📋</div>
+                <div class="number">{{ stats.totali }}</div>
+                <div class="label">Preventivi Totali</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🆕</div>
+                <div class="number">{{ stats.nuovi }}</div>
+                <div class="label">Nuovi</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⏳</div>
+                <div class="number">{{ stats.attesa }}</div>
+                <div class="label">In Attesa Conferma</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">✅</div>
+                <div class="number">{{ stats.inviati }}</div>
+                <div class="label">Inviati</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🤖 Nuovo Preventivo con AI</h2>
+            <button class="btn btn-ai" onclick="openModal('nuovo')">+ Crea Preventivo con Gemini AI</button>
+        </div>
+
+        <div class="card">
+            <h2>📊 Elenco Preventivi</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Email</th>
+                        <th>Prodotti</th>
+                        <th>Stato</th>
+                        <th>Data</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in preventivi %}
+                    <tr>
+                        <td>#{{ p.id }}</td>
+                        <td>{{ p.cliente_nome }}</td>
+                        <td>{{ p.cliente_email }}</td>
+                        <td>{{ p.prodotti[:30] }}...</td>
+                        <td><span class="status-badge status-{{ p.stato }}">{{ p.stato }}</span></td>
+                        <td>{{ p.data_creazione[:10] }}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="viewPreventivo({{ p.id }})">👁️</button>
+                            {% if p.stato == 'ai_generato' %}
+                            <button class="btn btn-success" onclick="approvaPreventivo({{ p.id }})">✅</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if not preventivi %}
+                    <tr><td colspan="7" style="text-align:center;color:#666;">Nessun preventivo ancora</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>📬 Richieste dal Sito</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Prodotto</th>
+                        <th>Messaggio</th>
+                        <th>Data</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in richieste %}
+                    <tr>
+                        <td>#{{ r.id }}</td>
+                        <td>{{ r.nome }}</td>
+                        <td>{{ r.email }}</td>
+                        <td>{{ r.prodotto }}</td>
+                        <td>{{ r.messaggio[:40] }}...</td>
+                        <td>{{ r.data[:10] if r.data else 'N/A' }}</td>
+                        <td>
+                            <button class="btn btn-ai" onclick="creaPreventivoDaRichiesta({{ r.id }}, '{{ r.nome }}', '{{ r.email }}', '{{ r.telefono }}', '{{ r.prodotto }}', '{{ r.messaggio|replace("'", "") }}')">🤖 AI</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if not richieste %}
+                    <tr><td colspan="7" style="text-align:center;color:#666;">Nessuna richiesta</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Nuovo Preventivo -->
+    <div class="modal" id="modal-nuovo">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🤖 Nuovo Preventivo con AI</h2>
+                <button class="modal-close" onclick="closeModal('nuovo')">&times;</button>
+            </div>
+            <form id="form-preventivo" onsubmit="submitPreventivo(event)">
+                <div class="form-group">
+                    <label>Nome Cliente *</label>
+                    <input type="text" name="cliente_nome" id="cliente_nome" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Cliente *</label>
+                    <input type="email" name="cliente_email" id="cliente_email" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <input type="tel" name="cliente_telefono" id="cliente_telefono">
+                </div>
+                <div class="form-group">
+                    <label>Prodotti Richiesti *</label>
+                    <select name="prodotti" id="prodotti" multiple style="height:100px">
+                        <option value="Flessya - Porte Interni">Flessya - Porte Interni</option>
+                        <option value="Di.Bi. - Porte Blindate">Di.Bi. - Porte Blindate</option>
+                        <option value="Arieni - Maniglie Design">Arieni - Maniglie Design</option>
+                        <option value="Mondocasa">Mondocasa</option>
+                        <option value="Eproditalia">Eproditalia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Dettagli Richiesta *</label>
+                    <textarea name="richiesta" id="richiesta" required placeholder="Descrivi la richiesta del cliente: numero porte, dimensioni, finiture, ecc."></textarea>
+                </div>
+                <button type="submit" class="btn btn-ai" style="width:100%">🤖 Genera Preventivo con Gemini AI</button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top:15px;color:#667eea">Gemini AI sta elaborando il preventivo...</p>
+            </div>
+
+            <div class="ai-box" id="ai-result" style="display:none">
+                <h4>🤖 Preventivo Generato dall'AI</h4>
+                <div class="ai-response" id="ai-response-text"></div>
+                <div style="margin-top:20px;display:flex;gap:10px">
+                    <button class="btn btn-success" onclick="inviaConferma()">📧 Invia per Conferma</button>
+                    <button class="btn btn-primary" onclick="rigeneraAI()">🔄 Rigenera</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualizza -->
+    <div class="modal" id="modal-view">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📋 Dettaglio Preventivo</h2>
+                <button class="modal-close" onclick="closeModal('view')">&times;</button>
+            </div>
+            <div id="view-content"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentPreventivoId = null;
+
+        function openModal(id) { document.getElementById('modal-' + id).classList.add('active'); }
+        function closeModal(id) { document.getElementById('modal-' + id).classList.remove('active'); }
+
+        function creaPreventivoDaRichiesta(id, nome, email, tel, prodotto, msg) {
+            document.getElementById('cliente_nome').value = nome;
+            document.getElementById('cliente_email').value = email;
+            document.getElementById('cliente_telefono').value = tel || '';
+            document.getElementById('richiesta').value = msg;
+            openModal('nuovo');
+        }
+
+        async function submitPreventivo(e) {
+            e.preventDefault();
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('ai-result').style.display = 'none';
+
+            const formData = new FormData(e.target);
+            const prodotti = Array.from(document.getElementById('prodotti').selectedOptions).map(o => o.value).join(', ');
+            formData.set('prodotti', prodotti);
+
+            try {
+                const response = await fetch('/admin/api/genera-preventivo', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                document.getElementById('loading').classList.remove('active');
+
+                if (data.success) {
+                    currentPreventivoId = data.preventivo_id;
+                    document.getElementById('ai-response-text').textContent = data.preventivo_ai;
+                    document.getElementById('ai-result').style.display = 'block';
+                } else {
+                    alert('Errore: ' + data.error);
+                }
+            } catch (err) {
+                document.getElementById('loading').classList.remove('active');
+                alert('Errore di connessione');
+            }
+        }
+
+        async function inviaConferma() {
+            if (!currentPreventivoId) return;
+            try {
+                const response = await fetch('/admin/api/invia-conferma/' + currentPreventivoId, { method: 'POST' });
+                const data = await response.json();
+                if (data.success) {
+                    alert('✅ Email di conferma inviata!');
+                    closeModal('nuovo');
+                    location.reload();
+                } else {
+                    alert('Errore: ' + data.error);
+                }
+            } catch (err) {
+                alert('Errore di connessione');
+            }
+        }
+
+        async function viewPreventivo(id) {
+            try {
+                const response = await fetch('/admin/api/preventivo/' + id);
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('view-content').innerHTML = `
+                        <p><strong>Cliente:</strong> ${data.preventivo.cliente_nome}</p>
+                        <p><strong>Email:</strong> ${data.preventivo.cliente_email}</p>
+                        <p><strong>Telefono:</strong> ${data.preventivo.cliente_telefono || 'N/A'}</p>
+                        <p><strong>Prodotti:</strong> ${data.preventivo.prodotti}</p>
+                        <p><strong>Stato:</strong> <span class="status-badge status-${data.preventivo.stato}">${data.preventivo.stato}</span></p>
+                        <hr style="margin:20px 0">
+                        <h4>Richiesta:</h4>
+                        <p>${data.preventivo.richiesta}</p>
+                        <hr style="margin:20px 0">
+                        <h4>Preventivo AI:</h4>
+                        <pre style="background:#f5f5f5;padding:15px;border-radius:8px;white-space:pre-wrap">${data.preventivo.preventivo_ai || 'Non ancora generato'}</pre>
+                    `;
+                    openModal('view');
+                }
+            } catch (err) {
+                alert('Errore caricamento');
+            }
+        }
+
+        async function approvaPreventivo(id) {
+            if (confirm('Vuoi approvare e inviare questo preventivo al cliente?')) {
+                try {
+                    const response = await fetch('/admin/api/approva/' + id, { method: 'POST' });
+                    const data = await response.json();
+                    if (data.success) {
+                        alert('✅ Preventivo approvato e inviato!');
+                        location.reload();
+                    } else {
+                        alert('Errore: ' + data.error);
+                    }
+                } catch (err) {
+                    alert('Errore');
+                }
+            }
+        }
+    </script>
+</body>
+</html>'''
+
+# ============================================
+# ADMIN ROUTES
+# ============================================
+
+@app.route('/admin')
+@app.route('/admin/')
+def admin_home():
+    if 'admin_user' in session:
+        return redirect('/admin/dashboard')
+    return redirect('/admin/login')
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    error = None
+    if request.method == 'POST':
+        username = request.form.get('username', '').lower().strip()
+        password = request.form.get('password', '')
+
+        if verify_admin(username, password):
+            session['admin_user'] = username
+            session.permanent = True
+            log_security_event("ADMIN_LOGIN", get_real_ip(), f"User: {username}")
+            return redirect('/admin/dashboard')
+        else:
+            error = "Credenziali non valide"
+            log_security_event("ADMIN_LOGIN_FAILED", get_real_ip(), f"User: {username}")
+
+    return render_template_string(ADMIN_LOGIN_PAGE, error=error)
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin_user', None)
+    return redirect('/admin/login')
+
+@app.route('/admin/dashboard')
+@admin_required
+def admin_dashboard():
+    conn = get_db()
+    c = conn.cursor()
+
+    # Stats
+    c.execute('SELECT COUNT(*) FROM preventivi')
+    totali = c.fetchone()[0]
+    c.execute("SELECT COUNT(*) FROM preventivi WHERE stato = 'nuovo'")
+    nuovi = c.fetchone()[0]
+    c.execute("SELECT COUNT(*) FROM preventivi WHERE stato IN ('ai_generato', 'attesa_conferma')")
+    attesa = c.fetchone()[0]
+    c.execute("SELECT COUNT(*) FROM preventivi WHERE stato = 'inviato'")
+    inviati = c.fetchone()[0]
+
+    # Preventivi
+    c.execute('SELECT * FROM preventivi ORDER BY data_creazione DESC LIMIT 50')
+    preventivi = [dict(row) for row in c.fetchall()]
+
+    # Richieste dal form contatti
+    c.execute('SELECT * FROM richieste ORDER BY data DESC LIMIT 50')
+    richieste = [dict(row) for row in c.fetchall()]
+
+    conn.close()
+
+    stats = {'totali': totali, 'nuovi': nuovi, 'attesa': attesa, 'inviati': inviati}
+
+    return render_template_string(ADMIN_DASHBOARD_PAGE,
+                                  username=session['admin_user'],
+                                  stats=stats,
+                                  preventivi=preventivi,
+                                  richieste=richieste)
+
+@app.route('/admin/api/genera-preventivo', methods=['POST'])
+@admin_required
+def api_genera_preventivo():
+    cliente_nome = sanitize_input(request.form.get('cliente_nome', ''))
+    cliente_email = sanitize_input(request.form.get('cliente_email', ''))
+    cliente_telefono = sanitize_input(request.form.get('cliente_telefono', ''))
+    prodotti = sanitize_input(request.form.get('prodotti', ''))
+    richiesta = sanitize_input(request.form.get('richiesta', ''), 2000)
+
+    if not cliente_nome or not cliente_email or not richiesta:
+        return jsonify({'success': False, 'error': 'Campi obbligatori mancanti'})
+
+    # Genera con AI
+    preventivo_ai, error = generate_preventivo_ai(cliente_nome, prodotti, richiesta)
+
+    if error:
+        return jsonify({'success': False, 'error': error})
+
+    # Salva nel DB
+    conn = get_db()
+    c = conn.cursor()
+    c.execute('''INSERT INTO preventivi (cliente_nome, cliente_email, cliente_telefono, prodotti, richiesta, preventivo_ai, stato, creato_da)
+                 VALUES (?, ?, ?, ?, ?, ?, 'ai_generato', ?)''',
+              (cliente_nome, cliente_email, cliente_telefono, prodotti, richiesta, preventivo_ai, session['admin_user']))
+    preventivo_id = c.lastrowid
+    conn.commit()
+    conn.close()
+
+    return jsonify({'success': True, 'preventivo_id': preventivo_id, 'preventivo_ai': preventivo_ai})
+
+@app.route('/admin/api/preventivo/<int:id>')
+@admin_required
+def api_get_preventivo(id):
+    conn = get_db()
+    c = conn.cursor()
+    c.execute('SELECT * FROM preventivi WHERE id = ?', (id,))
+    row = c.fetchone()
+    conn.close()
+
+    if row:
+        return jsonify({'success': True, 'preventivo': dict(row)})
+    return jsonify({'success': False, 'error': 'Non trovato'})
+
+@app.route('/admin/api/invia-conferma/<int:id>', methods=['POST'])
+@admin_required
+def api_invia_conferma(id):
+    success, error = send_confirmation_request(id, EMAIL_SENDER)
+    if success:
+        conn = get_db()
+        c = conn.cursor()
+        c.execute("UPDATE preventivi SET stato = 'attesa_conferma' WHERE id = ?", (id,))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True})
+    return jsonify({'success': False, 'error': error or 'Errore invio email'})
+
+@app.route('/admin/api/approva/<int:id>', methods=['POST'])
+@admin_required
+def api_approva_preventivo(id):
+    conn = get_db()
+    c = conn.cursor()
+    c.execute('SELECT * FROM preventivi WHERE id = ?', (id,))
+    prev = c.fetchone()
+
+    if not prev:
+        return jsonify({'success': False, 'error': 'Non trovato'})
+
+    # Invia preventivo al cliente
+    html = f"""
+    <html><body style="font-family: Arial, sans-serif; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 30px; border-radius: 10px;">
+        <h2 style="color: #1a1a2e;">Preventivo da Spallanzani Rappresentanze</h2>
+        <p>Gentile {prev['cliente_nome']},</p>
+        <p>Ecco il preventivo richiesto:</p>
+        <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <pre style="white-space: pre-wrap; font-family: Arial;">{prev['preventivo_ai']}</pre>
+        </div>
+        <p>Per qualsiasi domanda non esiti a contattarci:</p>
+        <p>📧 spallanzanirappresentanze@gmail.com<br>📞 059 123456</p>
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+        <p style="color: #666; font-size: 12px;">Spallanzani Rappresentanze - Infissi e Serramenti Premium</p>
+    </div>
+    </body></html>
+    """
+
+    success, error = send_email(prev['cliente_email'], "Il tuo Preventivo - Spallanzani Rappresentanze", html)
+
+    if success:
+        c.execute("UPDATE preventivi SET stato = 'inviato', data_invio = ? WHERE id = ?",
+                  (datetime.now().isoformat(), id))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True})
+
+    conn.close()
+    return jsonify({'success': False, 'error': error or 'Errore invio'})
+
+@app.route('/admin/conferma/<token>')
+def conferma_preventivo(token):
+    if token not in pending_confirmations:
+        return "Token non valido o scaduto", 404
+
+    conf = pending_confirmations[token]
+    if datetime.now() > conf['expires']:
+        del pending_confirmations[token]
+        return "Token scaduto", 404
+
+    preventivo_id = conf['preventivo_id']
+
+    conn = get_db()
+    c = conn.cursor()
+    c.execute('SELECT * FROM preventivi WHERE id = ?', (preventivo_id,))
+    prev = c.fetchone()
+
+    if not prev:
+        return "Preventivo non trovato", 404
+
+    # Invia al cliente
+    html = f"""
+    <html><body style="font-family: Arial, sans-serif; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 30px; border-radius: 10px;">
+        <h2 style="color: #1a1a2e;">Preventivo da Spallanzani Rappresentanze</h2>
+        <p>Gentile {prev['cliente_nome']},</p>
+        <p>Ecco il preventivo richiesto:</p>
+        <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <pre style="white-space: pre-wrap; font-family: Arial;">{prev['preventivo_ai']}</pre>
+        </div>
+        <p>Per qualsiasi domanda non esiti a contattarci:</p>
+        <p>📧 spallanzanirappresentanze@gmail.com</p>
+    </div>
+    </body></html>
+    """
+
+    success, _ = send_email(prev['cliente_email'], "Il tuo Preventivo - Spallanzani Rappresentanze", html)
+
+    if success:
+        c.execute("UPDATE preventivi SET stato = 'inviato', data_invio = ? WHERE id = ?",
+                  (datetime.now().isoformat(), preventivo_id))
+        conn.commit()
+        del pending_confirmations[token]
+
+    conn.close()
+
+    return """<!DOCTYPE html><html><head><title>Confermato!</title>
+    <style>body{font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;background:#e8f5e9;}
+    .box{text-align:center;padding:50px;}.icon{font-size:80px;}</style></head>
+    <body><div class="box"><div class="icon">✅</div><h1>Preventivo Inviato!</h1><p>Il cliente riceverà l'email a breve.</p></div></body></html>"""
+
+@app.route('/admin/rifiuta/<token>')
+def rifiuta_preventivo(token):
+    if token in pending_confirmations:
+        preventivo_id = pending_confirmations[token]['preventivo_id']
+        conn = get_db()
+        c = conn.cursor()
+        c.execute("UPDATE preventivi SET stato = 'rifiutato' WHERE id = ?", (preventivo_id,))
+        conn.commit()
+        conn.close()
+        del pending_confirmations[token]
+
+    return """<!DOCTYPE html><html><head><title>Rifiutato</title>
+    <style>body{font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;background:#ffebee;}
+    .box{text-align:center;padding:50px;}.icon{font-size:80px;}</style></head>
+    <body><div class="box"><div class="icon">❌</div><h1>Preventivo Rifiutato</h1><p>Il preventivo non verrà inviato.</p></div></body></html>"""
 
 # Route per monitoraggio sicurezza (protetta)
 @app.route('/security-status/<secret_key>')
