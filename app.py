@@ -47,6 +47,12 @@ SMTP_PORT = 587
 # Pending confirmations storage
 pending_confirmations = {}
 
+# Anti-brute force storage
+login_attempts = defaultdict(list)  # IP -> list of timestamps
+failed_logins = defaultdict(int)    # IP -> count of consecutive failures
+locked_accounts = {}                # username -> unlock_time
+ip_login_blocks = {}                # IP -> unlock_time
+
 # ============================================
 # SISTEMA DI SICUREZZA AVANZATO
 # ============================================
@@ -215,6 +221,88 @@ def verify_admin(username, password):
         if ADMIN_USERS[username] == password_hash:
             return True
     return False
+
+# ============================================
+# ANTI-BRUTE FORCE SYSTEM
+# ============================================
+
+MAX_LOGIN_ATTEMPTS = 5          # Max tentativi prima del blocco
+LOGIN_BLOCK_DURATION = 1800     # 30 minuti di blocco
+ATTEMPT_WINDOW = 300            # Finestra di 5 minuti per contare tentativi
+PROGRESSIVE_DELAY = True        # Delay progressivo tra tentativi
+
+def is_ip_blocked_login(ip):
+    """Controlla se IP è bloccato per troppi tentativi login"""
+    if ip in ip_login_blocks:
+        if time.time() < ip_login_blocks[ip]:
+            return True
+        else:
+            del ip_login_blocks[ip]
+            failed_logins[ip] = 0
+    return False
+
+def is_account_locked(username):
+    """Controlla se account è bloccato"""
+    if username in locked_accounts:
+        if time.time() < locked_accounts[username]:
+            return True
+        else:
+            del locked_accounts[username]
+    return False
+
+def record_login_attempt(ip, username, success):
+    """Registra tentativo di login"""
+    now = time.time()
+
+    # Pulisci vecchi tentativi
+    login_attempts[ip] = [t for t in login_attempts[ip] if now - t < ATTEMPT_WINDOW]
+    login_attempts[ip].append(now)
+
+    if success:
+        # Reset contatori su login riuscito
+        failed_logins[ip] = 0
+        if username in locked_accounts:
+            del locked_accounts[username]
+        log_security_event("ADMIN_LOGIN_SUCCESS", ip, f"User: {username}")
+    else:
+        failed_logins[ip] += 1
+        log_security_event("ADMIN_LOGIN_FAILED", ip, f"User: {username} (attempt {failed_logins[ip]})")
+
+        # Blocca IP dopo troppi tentativi
+        if failed_logins[ip] >= MAX_LOGIN_ATTEMPTS:
+            ip_login_blocks[ip] = now + LOGIN_BLOCK_DURATION
+            log_security_event("ADMIN_IP_BLOCKED", ip, f"Blocked for {LOGIN_BLOCK_DURATION}s after {failed_logins[ip]} failures")
+
+        # Blocca anche l'account specifico se esiste
+        if username in ADMIN_USERS:
+            if username not in locked_accounts:
+                locked_accounts[username] = 0
+            # Incrementa tempo di blocco progressivamente
+            locked_accounts[username] = now + (60 * failed_logins[ip])  # 1 min per ogni tentativo
+
+def get_login_delay(ip):
+    """Calcola delay progressivo per rallentare brute force"""
+    if not PROGRESSIVE_DELAY:
+        return 0
+    failures = failed_logins.get(ip, 0)
+    if failures == 0:
+        return 0
+    # Delay esponenziale: 1s, 2s, 4s, 8s, 16s...
+    return min(2 ** failures, 30)  # Max 30 secondi
+
+def get_remaining_lockout(ip, username=None):
+    """Ritorna secondi rimanenti di blocco"""
+    now = time.time()
+    ip_remaining = 0
+    account_remaining = 0
+
+    if ip in ip_login_blocks:
+        ip_remaining = int(ip_login_blocks[ip] - now)
+
+    if username and username in locked_accounts:
+        account_remaining = int(locked_accounts[username] - now)
+
+    return max(ip_remaining, account_remaining, 0)
 
 # ============================================
 # GEMINI AI FUNCTIONS
@@ -3347,18 +3435,45 @@ def admin_home():
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
     error = None
+    ip = get_real_ip()
+    locked_time = 0
+
+    # Controlla se IP è bloccato
+    if is_ip_blocked_login(ip):
+        locked_time = get_remaining_lockout(ip)
+        error = f"🔒 Troppi tentativi! Riprova tra {locked_time // 60} minuti e {locked_time % 60} secondi"
+        log_security_event("BLOCKED_LOGIN_ATTEMPT", ip, f"IP still blocked, {locked_time}s remaining")
+        return render_template_string(ADMIN_LOGIN_PAGE, error=error)
+
     if request.method == 'POST':
         username = request.form.get('username', '').lower().strip()
         password = request.form.get('password', '')
 
+        # Controlla se account specifico è bloccato
+        if is_account_locked(username):
+            locked_time = get_remaining_lockout(ip, username)
+            error = f"🔒 Account temporaneamente bloccato. Riprova tra {locked_time} secondi"
+            record_login_attempt(ip, username, False)
+            return render_template_string(ADMIN_LOGIN_PAGE, error=error)
+
+        # Applica delay progressivo (anti brute-force)
+        delay = get_login_delay(ip)
+        if delay > 0:
+            time.sleep(min(delay, 5))  # Max 5 sec delay per non bloccare troppo
+
         if verify_admin(username, password):
+            record_login_attempt(ip, username, True)
             session['admin_user'] = username
             session.permanent = True
-            log_security_event("ADMIN_LOGIN", get_real_ip(), f"User: {username}")
             return redirect('/admin/dashboard')
         else:
-            error = "Credenziali non valide"
-            log_security_event("ADMIN_LOGIN_FAILED", get_real_ip(), f"User: {username}")
+            record_login_attempt(ip, username, False)
+            attempts_left = MAX_LOGIN_ATTEMPTS - failed_logins.get(ip, 0)
+            if attempts_left > 0:
+                error = f"❌ Credenziali non valide ({attempts_left} tentativi rimasti)"
+            else:
+                locked_time = get_remaining_lockout(ip)
+                error = f"🔒 Troppi tentativi! Bloccato per {locked_time // 60} minuti"
 
     return render_template_string(ADMIN_LOGIN_PAGE, error=error)
 
