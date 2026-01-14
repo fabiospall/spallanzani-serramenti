@@ -38,8 +38,8 @@ ADMIN_USERS = {
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
 GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent'
 
-# Email Configuration
-EMAIL_SENDER = 'spallanzanirappresentanze@gmail.com'
+# Email Configuration (TEST: fabiospalla31 - poi rimettere spallanzanirappresentanze)
+EMAIL_SENDER = 'fabiospalla31@gmail.com'
 EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD', '')  # App password Gmail
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
